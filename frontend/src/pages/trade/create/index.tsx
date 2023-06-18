@@ -6,13 +6,13 @@ import validation from './validation';
 import useQuery from '@hooks/useQuery';
 import { strategies, description } from '@data/strategies';
 
-import Summary from '@components/summary/Style1';
 import Checkbox from '@components/inputs/Checkbox';
 import Input from '@components/inputs/Input';
 import Select from '@components/inputs/Select';
 import Button from '@components/buttons/Button';
 import Flex from '@components/flex/Style1';
 import Container from '@components/containers/Style1';
+import Slidein from '@components/slidein/Style1';
 
 const Create = () => {
 
@@ -44,7 +44,9 @@ const Create = () => {
     };
 
     return (
-        <Summary title="Create Trade" background="dark">
+        <Flex>
+            <div></div>
+            <Slidein icon={<Button label1="Create Bot" color="main"/>} width={400}>
 
             <form onSubmit={onSubmit}>
 
@@ -184,7 +186,8 @@ const Create = () => {
 
             </form>
 
-        </Summary>
+            </Slidein>
+        </Flex>
     )
 }
 

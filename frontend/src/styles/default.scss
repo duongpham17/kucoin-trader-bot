@@ -17,7 +17,7 @@ body{
 .bodyScrollBar{
   overflow: hidden;
   &::-webkit-scrollbar {
-    display: none;
+      display: none;
   }
 }
 
