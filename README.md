@@ -30,12 +30,12 @@ DATABASE_PASSWORD=password
 ```
 
 # 3. Running
-Running server, make sure your inside the main root of the directory
+Running server, make sure you're inside the main root of the directory
 ```
 npm install
 npm run install
 ```
-Running frontend, make sure your inside the frontend directory
+Running frontend, make sure you're inside the frontend directory
 ```
 npm install
 npm run start
