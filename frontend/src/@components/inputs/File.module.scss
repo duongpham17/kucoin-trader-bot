@@ -1,0 +1,120 @@
+.container{
+    border: 1px solid var(--clr-light-light);
+    background-color: var(--clr-light);
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    position: relative;
+
+    .error{
+        padding: 0.5rem;
+        p{
+            text-align: center;
+            color: var(--clr-red);
+        }
+    }
+
+    .loading{
+        background-color: var(--clr-light-light);
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .spinner{
+            width: 30px;
+            height: 30px;
+            border-radius: 50px;
+            border: 2px solid var(--clr-main);
+            border-bottom-color: transparent;
+            animation: spin linear infinite 0.5s;
+
+            @keyframes spin {
+                to{
+                    transform: rotate(360deg);
+                }
+            }
+        
+        }
+    }
+
+    .upload{
+        .inputFile{
+            display: none;
+        }
+        label{
+            display: block;
+            text-align: center;
+            border: 1px dotted var(--clr-dark);
+            background-color: var(--clr-light);
+            padding: 1rem;
+            cursor: pointer;
+            &:hover{
+                border-color: var(--clr-main);
+            }
+        }
+    }
+
+    .imageArea{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+        "saved preview";
+        gap: 0.5rem;
+
+        .saved{
+            grid-area: saved;
+        }
+
+        .preview{
+            grid-area: preview;
+        }
+
+        .saved, .preview{
+            padding: 0.5rem;
+            border-radius: 5px;
+            background-color: var(--clr-light);
+            margin: 0.5rem 0;
+        }
+
+        p{
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid var(--clr-light);
+        }
+
+        .map{
+            margin: 0.5rem 0;
+            img{
+                width: 60px;
+                height: 60px;
+                border: 1px solid transparent;
+
+                &:hover{
+                    border-color: var(--clr-red);
+                }
+            }
+        }
+    }
+
+    .uploadBtn{
+        max-width: 200px;
+        margin: 0.5rem auto;
+        text-align: center;
+
+        button{
+            border: 1px solid var(--clr-light);
+            padding: 0.5rem;
+            border-radius: 5px;
+            background-color: var(--clr-dark-light);
+            color: white;
+            margin: auto;
+            &:hover{
+                border-color: var(--clr-main);
+            }
+        }
+    }
+}

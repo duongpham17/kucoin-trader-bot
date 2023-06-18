@@ -1,0 +1,31 @@
+.container{
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: 5px;
+    position: relative;
+    width: 100%;
+
+    &:hover{
+        border-color: var(--clr-light-light);
+    }
+}
+
+.light{
+    background-color: var(--clr-light);
+}
+
+.dark{
+    background-color: var(--clr-dark);
+}
+
+.main{
+    background-color: var(--clr-main);
+}
+
+.selected{
+    border-color: var(--clr-main);
+
+    &:hover{
+        border-color: var(--clr-main);
+    }
+}

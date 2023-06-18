@@ -1,0 +1,11 @@
+.container{
+    text-align: center;
+    margin-top: 12rem;
+
+    a{
+        &:hover{
+            color: var(--clr-main)
+        }
+    }
+    
+}

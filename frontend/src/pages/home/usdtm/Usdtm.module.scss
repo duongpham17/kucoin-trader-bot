@@ -1,0 +1,44 @@
+.container{
+    padding: 1rem;
+
+    .title{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .search{
+        margin: 1rem 0;
+        input{
+            background-color: var(--clr-dark-light);
+            border: 1px solid var(--clr-light);
+            width: 100%;
+            padding: 1rem;
+
+            &:hover{
+                border-color: var(--clr-main);
+            }
+        }
+    }
+
+    .coins{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+        a{
+            display: inline-flex;
+            border: 1px solid var(--clr-light);
+            padding: 0.5rem;
+            justify-content: center;
+            font-size: 0.8rem;
+    
+            &:hover{
+                border-color: var(--clr-main);
+            }
+        }
+
+        @media (max-width: 600px){
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}

@@ -1,0 +1,57 @@
+html, body {
+  font-size: 18px;
+  min-width: 320px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+  
+body{
+  background: white;
+  max-width: 1000px;
+  margin: auto;
+}
+.bodyScrollBar{
+  overflow: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+input{
+  &::-webkit-inner-spin-button, &::-webkit-outer-spin-button{
+      -webkit-appearance: none;
+      margin: 0;
+      display: none;
+  }
+}
+  
+a, button, input, li, ul, p, q, textarea, span, label {
+  text-decoration: none;
+  outline: none;
+  border: none;
+  background: none;
+  list-style: none;
+  color: rgb(22, 22, 22);
+}
+
+label{
+  font-size: 0.9rem;
+}
+
+::placeholder{
+  font-size: 0.8rem;
+}
+
+img{
+  object-fit: cover;
+  display: block;
+}
+  
+button, a{
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+}

@@ -1,0 +1,103 @@
+/* Loading */ 
+@mixin Loading($width, $height, $border, $color) {
+    width: $width;
+    height: $height;
+    border-radius: 50%;
+    border: $border solid $color;
+    border-top-color: transparent;
+    animation: spinner 0.5s linear infinite;
+}
+@keyframes spinner {
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+.container{
+    
+    button{
+        border: 1px solid transparent;
+        padding: 0.5rem;
+        width: 100%;
+        transition: 0.2s ease-in-out;
+
+        &:hover{
+            opacity: 0.8;
+        }
+        
+        .single{
+            margin: auto;
+        }
+
+        .double{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;    
+            
+            svg, span{
+                display: flex;
+            }
+        }
+
+        .loading1{
+            @include Loading(15px, 15px, 2px, var(--clr-main));
+            margin: auto;
+        }
+
+        .loading2{
+            @include Loading(15px, 15px, 2px, var(--clr-main));
+        }
+
+    }
+
+    .red, .black, .main{
+        border: 1px solid var(--clr-light-light);
+        p, svg, span{
+            color: white;
+        };
+        .loading1{
+            @include Loading(15px, 15px, 2px, white);
+            margin: auto;
+        }
+        .loading2{
+            @include Loading(15px, 15px, 2px, white);
+        }
+    }
+
+    .light, .dark{
+        border: 1px solid var(--clr-light-light);
+    }
+    .red{
+        background-color: var(--clr-red);
+    }
+    .black{
+        background-color: black;
+    }
+    .light{
+        background-color: var(--clr-light-light);
+    }
+    .dark{
+        background-color: var(--clr-dark-light);
+    }
+    .blue{
+        background-color: var(--clr-blue);
+    }
+    .main{
+        background-color: var(--clr-main);
+    }
+    .plain{
+        background-color: var(--clr-background);
+        border: 1px solid var(--clr-light);
+
+        &:hover{
+            border-color: var(--clr-main);
+        }
+    }
+    .selected{
+        border-color: var(--clr-main);
+    }
+    .margin{
+        margin-bottom: 0.5rem;
+    }
+}

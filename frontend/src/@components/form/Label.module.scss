@@ -1,0 +1,10 @@
+.container{
+    display: flex;
+    justify-content: space-between;
+    label, small{
+        font-weight: 200;
+    }
+    .error{
+        color: var(--clr-red)
+    }
+}

@@ -1,0 +1,46 @@
+/* Loading */ 
+@mixin Loading($width, $height, $border, $color) {
+    width: $width;
+    height: $height;
+    border-radius: 50%;
+    border: $border solid $color;
+    border-top-color: light;
+    animation: spinner 0.7s linear infinite;
+}
+@keyframes spinner {
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+.container{
+    min-width: 200px;
+    .button{
+        border: 1px solid var(--clr-light-light);
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 5px;
+        background-color: var(--clr-dark-light);
+
+        &:hover{
+            opacity: 0.8;
+        }
+    }
+    .loading{
+        margin: auto;
+        @include Loading(15px, 15px, 2px, var(--clr-main));
+    }
+    .main{
+        background-color: var(--clr-main);
+        color: white;
+    }
+    .dark{
+        background-color: var(--clr-dark-light);
+        color: white;
+    }
+    .light{
+        background-color: var(--clr-light-light);
+        color: white;
+    }
+
+}

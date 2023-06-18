@@ -1,0 +1,56 @@
+button, a, svg,
+input, textarea, 
+ol, ul, li, option, select,
+p, q, b, label, span, kbd, small,
+h1, h2, h3, h4, h5, h6,
+div, section, main, form, header, nav, footer, nav, table, tr, td, title, summary{
+    color: var(--clr-text);
+}
+
+::placeholder{
+    color: rgba(128, 128, 128, 0.377);
+}
+
+.theme-light{
+    --clr-main: #6042d7;
+    --clr-main-light: rgba(96, 66, 215, 0.797);
+    --clr-main-fade: hsl(24, 100%, 98%);
+    --clr-main-trans: rgb(206, 160, 151, 0.5);
+    --clr-background: white;
+    --clr-background-light: rgba(245, 245, 245, 0.883);
+    --clr-text: #555555;
+    --clr-text-light: #7f7f7fe1;
+    --clr-dark: #f4f3f3;
+    --clr-dark-light: #efeeeecb;
+    --clr-grey: rgb(246, 246, 246); 
+    --clr-grey-light: rgba(149, 149, 149, 0.746); 
+    --clr-light: #cbcbcb;
+    --clr-light-light: rgba(216, 216, 216, 0.862);
+
+    --clr-red: rgb(225, 99, 99);
+    --clr-blue: rgb(89, 141, 226);
+    --clr-green: rgb(84, 210, 111);
+    --clr-yellow: yellow;
+}
+
+.theme-night{
+    --clr-main: rgb(96, 66, 215);
+    --clr-main-light: rgba(96, 66, 215, 0.797);
+    --clr-main-fade: hsl(24, 100%, 98%);
+    --clr-main-trans: rgb(206, 160, 151, 0.5);
+    --clr-background: black;
+    --clr-background-light: black;
+    --clr-text: white;
+    --clr-text-light: #c3c3c3e1;
+    --clr-dark: #292929c5;
+    --clr-dark-light: #34343485;
+    --clr-grey: rgb(149, 149, 149); 
+    --clr-grey-light: rgba(149, 149, 149, 0.746); 
+    --clr-light: #2b2b2b;
+    --clr-light-light: rgba(52, 52, 52, 0.862);
+
+    --clr-red: rgb(225, 99, 99);
+    --clr-blue: rgb(36, 116, 245);
+    --clr-green: rgb(84, 210, 111);
+    --clr-yellow: yellow;
+}

@@ -1,0 +1,81 @@
+.container{
+    position: relative;
+    transition: ease-in-out 0.2s;
+    z-index: 1;
+    &:hover{
+        border-color: var(--clr-main);
+    }
+    .button{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 0.5rem;
+        svg, span{
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+    }
+    .open{
+        transition: 0.5s;
+        rotate: 90deg;
+    }
+    .closed{
+        transition: 0.5s;
+        rotate: 0deg;
+    }
+    ul{            
+        position: absolute;
+        width: calc(100% - -2px);
+        left: -1px;
+        &:hover{
+            border-color: var(--clr-main);
+        }
+        button{
+            padding: 0.5rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            &:hover{
+                background-color: var(--clr-dark);
+            }
+        }
+        button:hover .arrow{
+            display: block;
+        }
+        .arrow {
+            display: none;
+        }
+        .selected{
+            background-color: var(--clr-light-transparent);
+        }
+    }
+}
+
+.light{
+    background-color: var(--clr-dark-light);
+    border: 1px solid var(--clr-light);
+    ul{
+        border: 1px solid var(--clr-light);
+        background-color: var(--clr-dark-light);
+    }
+}
+.dark{
+    background-color: var(--clr-dark);
+    border: 1px solid var(--clr-light);
+    ul{
+        background-color: var(--clr-dark);
+        border: 1px solid var(--clr-light);
+    }
+}
+.plain{
+    background-color: var(--clr-background);
+    border: 1px solid var(--clr-light);
+    ul{
+        background-color: var(--clr-background);
+        border: 1px solid var(--clr-light);
+    }
+}

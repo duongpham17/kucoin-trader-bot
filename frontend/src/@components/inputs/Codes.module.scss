@@ -1,0 +1,28 @@
+.container {
+
+    div {
+        width: 100%;
+        margin: 0.5rem 0;
+        display: flex;
+        gap: 0.5rem;
+        
+        .box {
+            text-align: center;
+            height: 60px;
+            width: 40px;
+            border-radius: 5px;
+            border: 2px solid var(--clr-light-light); 
+            background-color: var(--clr-light-light);
+
+            &:hover{
+                border-color: var(--clr-light);
+            }
+
+            &:focus {
+                outline: none;
+                border-color: var(--clr-main);
+            }
+        }
+    }
+
+}

@@ -1,0 +1,95 @@
+.container{
+
+    label{
+        width: 100%;
+        margin-bottom: 0.2rem;
+        font-weight: 200;
+        color: var(--clr-text-light);
+    }
+
+    .select{
+        border: 1px solid var(--clr-light-light);
+        border-radius: 5px;
+        margin-bottom: 0.5rem;
+        transition: ease-in-out 0.2s;
+
+        &:hover{
+            border-color: var(--clr-main);
+        }
+
+        p{
+            text-align: left;
+        }
+
+        .button{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0.5rem;
+    
+            div{
+                display: flex;
+                align-items: center;
+            }
+            span{
+                font-weight: 200;
+            }
+            small{
+                font-weight: 400;
+            }
+            svg, span{
+                display: flex;
+                font-size: 1rem;
+            }
+        }
+    
+        .open{
+            transition: 0.5s;
+            rotate: 90deg;
+        }
+        .closed{
+            transition: 0.5s;
+            rotate: 0deg;
+        }
+    
+        ul{
+            button{
+                border-bottom: 1px solid transparent;
+                padding: 0.5rem;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                text-align: left;
+    
+                &:hover{
+                    background-color: var(--clr-dark-light);
+                }
+            }
+            button:hover .arrow{
+                display: block;
+            }
+            .arrow {
+                display: none;
+            }
+            .selected{
+                background-color: var(--clr-light-transparent);
+            }
+        }
+    }
+    .light{
+        background-color: var(--clr-dark-light);
+    }
+    .dark{
+        background-color: var(--clr-dark);
+    }
+    .plain{
+        background-color: var(--clr-background);
+    }
+
+    .error{
+        border: 1px solid var(--clr-red);
+    }
+    
+}

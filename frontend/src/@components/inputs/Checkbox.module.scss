@@ -1,0 +1,43 @@
+.container{
+    width: 100%;
+
+    label, span{
+        display: block;
+        font-weight: 200;
+    }
+    label{
+        color: var(--clr-text-light);
+    }
+    button{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--clr-dark-light);
+        padding: 0.5rem;
+        width: 100%;
+        transition: 0.2s ease-in-out;
+        margin-bottom: 0.5rem;
+        box-sizing: border-box;
+        border: 1px solid var(--clr-light-light);
+        border-radius: 5px;
+        &:hover{
+            border-color: var(--clr-main);
+        }
+    }
+
+    .box{
+        display: block;
+        width: 18px;
+        height: 18px;
+        background-color: var(--clr-dark);
+        border: 3px double var(--clr-light);
+        border-radius: 50px;
+    }
+    .selected{
+        background-color: var(--clr-main);
+    }
+}
+
+.margin{
+    margin-bottom: 0.5rem;
+}

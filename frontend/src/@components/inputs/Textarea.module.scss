@@ -1,0 +1,46 @@
+.container{
+    width: 100%;
+
+    label{
+        width: 100%;
+        margin-bottom: 0.2rem;
+        font-weight: 200;
+        color: var(--clr-text-light)
+    }
+    
+    textarea{
+        border: 1px solid var(--clr-light-light);
+        background-color: var(--clr-light);;
+        padding: 0.5rem;
+        width: 100%;
+        border-radius: 5px;
+        margin-bottom: 0.5rem;
+        box-sizing: border-box;
+        resize: vertical;
+        min-height: 100px;
+        max-height: 300px;
+
+        &:hover{
+            border-color: var(--clr-main);
+        }
+    }
+
+    .red{
+        color: var(--clr-red);
+    }
+
+    .double{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .error{
+            color: red;
+        }
+    }
+
+    .black{
+        background-color: var(--clr-black);
+        color: white;
+    }
+}

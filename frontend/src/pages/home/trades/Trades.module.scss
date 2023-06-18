@@ -1,0 +1,26 @@
+.container{
+    padding: 1rem;
+
+    .assets{
+        margin: 1rem 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+        a{
+            background-color: var(--clr-dark);
+            border: 1px solid var(--clr-light);
+            padding: 0.5rem;
+            display: inline-flex;
+            width: 100%;
+            font-size: 0.8rem;
+            justify-content: center;
+            &:hover{
+                border-color: var(--clr-main);
+            }
+        }
+        @media (max-width: 600px){
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+}

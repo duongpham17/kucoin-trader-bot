@@ -1,0 +1,62 @@
+.container{
+    border-radius: 5px;
+    border: 1px solid var(--clr-light-light);
+    position: relative;
+    transition: 0.2s ease-in-out;
+    margin-bottom: 0.5rem;
+
+    &:hover{
+        border-color: var(--clr-dark-light);
+    }
+
+    .btn{
+        cursor: pointer;
+        width: 100%;
+        padding: 0.5rem;
+
+        .header{
+            .flex{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            svg{
+                display: flex;
+                align-items: center;
+            }
+            small{
+                color: var(--clr-light);
+            }
+        }
+    }
+
+    .iconOpen{
+        transition: ease-in-out 0.5s;
+        rotate: 90deg
+    }
+    .iconClosed{
+        transition: ease-in-out 0.5s;
+        rotate: 0deg
+    }
+
+    .children{
+        padding: 0.5rem;
+        padding-top: 0rem;
+    }
+    
+}
+
+.light{
+    background-color: var(--clr-light-light);
+}
+
+.dark{
+    background-color: var(--clr-dark-light);
+}
+
+.selected{
+    border-color: var(--clr-main);
+    &:hover{
+        border-color: var(--clr-main);
+    }
+}

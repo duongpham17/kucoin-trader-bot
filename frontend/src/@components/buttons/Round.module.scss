@@ -1,0 +1,75 @@
+/* Loading */ 
+@mixin Loading($width, $height, $border, $color) {
+    width: $width;
+    height: $height;
+    border-radius: 50%;
+    border: $border solid $color;
+    border-top-color: transparent;
+    animation: spinner 0.5s linear infinite;
+}
+@keyframes spinner {
+    to{
+        transform: rotate(360deg);
+    }
+}
+
+.container{
+    border: 1px solid transparent;
+    padding: 0.5rem;
+    transition: 0.2s ease-in-out;
+    border-radius: 100%;
+    border: 1px solid var(--clr-light-light);
+    background-color: var(--clr-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg{
+        display: block;
+    }
+
+    &:hover{
+        opacity: 0.8;
+    }
+
+    .loading{
+        @include Loading(15px, 15px, 2px, var(--clr-main));
+        margin: auto;
+    }
+}
+
+.red, .black, .main{
+    border: 1px solid var(--clr-light-light);
+    svg, span{
+        color: white;
+    };
+    .loading{
+        @include Loading(15px, 15px, 2px, white);
+        margin: auto;
+    }
+}
+
+.light, .dark{
+    border: 1px solid var(--clr-light-light);
+}
+.red{
+    background-color: var(--clr-red);
+}
+.black{
+    background-color: black;
+}
+.light{
+    background-color: var(--clr-light-light);
+}
+.dark{
+    background-color: var(--clr-dark-light);
+}
+.main{
+    background-color: var(--clr-main);
+}
+.selected{
+    border-color: var(--clr-main);
+}
+.margin{
+    margin-bottom: 0.5rem;
+}

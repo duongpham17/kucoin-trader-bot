@@ -1,0 +1,18 @@
+.container{
+    display: inline-flex;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    button{
+        width: 100%;
+        border-bottom: 1px solid var(--clr-dark-light);
+        padding: 0.5rem;
+        transition: ease-in-out 0.3s;
+
+        &:hover{
+            background-color: var(--clr-dark-light);
+        }
+    }
+    .selected{
+        border-bottom-color: var(--clr-main);
+    }
+}

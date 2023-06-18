@@ -1,0 +1,39 @@
+.container{
+    margin-bottom: 0.5rem;
+
+    label{
+        font-weight: 200;
+        margin-bottom: 0.2rem;
+        display: block;
+        color: var(--clr-text-light)
+    }
+    
+
+    .items{
+        display: flex;
+        align-items: center;
+        background-color: var(--clr-light-light);
+        border: 1px solid var(--clr-light-light);
+        padding: 0.5rem;
+
+        button{
+            display: flex;
+            align-items: center;
+            margin-right: 0.5rem;
+        }
+    
+        .check{
+            display: flex;
+            align-items: center;
+            padding: 0.5rem;
+            border-radius: 50px;
+            border: 2px solid var(--clr-light-light);
+            background-color: var(--clr-grey);
+            margin-left: 0.5rem;
+        }
+        .selected{
+            background-color: var(--clr-blue);
+        }
+    }
+
+}

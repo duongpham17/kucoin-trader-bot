@@ -1,0 +1,22 @@
+.container {
+    margin: 0.5rem 0;
+    progress {
+        width: 100%;
+        background: crimson;
+        height: 10px;
+        display: block;
+    }
+    progress::-webkit-progress-value {
+        background: var(--clr-green);
+    }
+    progress::-webkit-progress-bar {
+        background: var(--clr-red);
+    }
+    .info{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.3rem 0;
+    }
+}
+  

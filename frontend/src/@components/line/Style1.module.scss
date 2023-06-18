@@ -1,0 +1,28 @@
+.container{
+    margin: 0.5rem 0;
+    border-bottom: 1px solid var(--clr-dark-light);
+}
+
+.white{
+    border-color: white;
+}
+
+.black{
+    border-color: black;
+}
+
+.lighty{
+    border-color: var(--clr-light-light);
+}
+
+.light{
+    border-color: var(--clr-light);
+}
+
+.dark{
+    border-color: var(--clr-dark);
+}
+
+.grey{
+    border-color: var(--clr-grey);
+}

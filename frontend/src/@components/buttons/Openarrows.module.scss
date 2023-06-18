@@ -1,0 +1,14 @@
+.container{
+    transition: 0.5s;
+}
+
+.open{
+    transition: 0.5s;
+    rotate: 180deg;
+}
+
+.center{
+    width: 100%;
+    margin: auto;
+    align-items: center;
+}

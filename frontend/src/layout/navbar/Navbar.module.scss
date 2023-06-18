@@ -1,0 +1,28 @@
+.container{
+    padding: 0.5rem 0.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    nav{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        svg{
+            display: block;
+            font-size: 1rem;
+        }
+        button, a{
+            padding: 0.5rem;
+            display: block;
+            transition: ease-in-out 0.3s;
+            border-radius: 50px;
+
+            &:hover{
+                background-color: var(--clr-light);
+            }
+        }
+    }
+
+}

@@ -1,0 +1,28 @@
+.container{
+    margin-bottom: 0.5rem;
+
+    .pagination{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+        
+        button{
+            border: 1px solid var(--clr-light);
+            margin: 0.1rem;
+            border-radius: 5px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            &:hover{
+                background-color: var(--clr-dark);
+            }
+        }
+        .selected{
+            background: var(--clr-main);
+        }
+    }
+}
