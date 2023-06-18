@@ -1,5 +1,5 @@
 import styles from './Bullets.module.scss';
-import React, {Fragment} from 'react';
+import React from 'react';
 
 interface Props extends React.DetailedHTMLProps<React.LabelHTMLAttributes<HTMLLabelElement>, HTMLLabelElement>{
     text: any[],

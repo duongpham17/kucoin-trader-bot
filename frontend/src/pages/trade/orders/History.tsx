@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '@redux/hooks/useRedux';
 import Orders from '@redux/actions/orders';
-import { IOrders } from '@redux/types/orders';
 
 import {timeDifference} from '@utils/functions';
 import useOpen from '@hooks/useOpen';
