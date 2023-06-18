@@ -31,7 +31,6 @@ DATABASE_PASSWORD=password
 
 # 3. Running
 Running server, make sure your inside the main root of the directory
-first install the dependencies for node_modules
 ```
 npm install
 npm run install
