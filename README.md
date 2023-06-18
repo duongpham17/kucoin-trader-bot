@@ -31,10 +31,13 @@ DATABASE_PASSWORD=password
 
 # 3. Running
 Running server, make sure your inside the main root of the directory
+first install the dependencies for node_modules
 ```
-npm run dev
+npm install
+npm run install
 ```
 Running frontend, make sure your inside the frontend directory
 ```
+npm install
 npm run start
 ```
