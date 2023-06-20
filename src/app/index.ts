@@ -5,7 +5,7 @@ import port from './port';
 import frontend from './frontend';
 import routes from './route';
 import database from './database';
-import bot from '../bot';
+// import bot from '../bot';
 
 const app = express();
 
@@ -21,7 +21,7 @@ export default (): void => {
 
     frontend(app, express);
 
-    bot();
+    // bot();
 
     port(app);
 

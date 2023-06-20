@@ -120,7 +120,7 @@ const Chart = () => {
     
     const data = calculateDATAS(klines);
     
-    const rsi = calculateRSI(klines, 10);
+    const rsi = calculateRSI(klines, 14);
 
     const onClick = (value: string | number) => {
       query.setQuery("period", 
@@ -134,41 +134,39 @@ const Chart = () => {
 
     return ( !klines ? <Loading size={50} center/> : 
         <>
+          <Select 
+            items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
+            selected={`Period ${query.getQueryValue("period") || 1}`} 
+            onClick={onClick} 
+            color="plain"
+          />
 
-            <Select 
-              items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
-              selected={`Period ${query.getQueryValue("period") || 1}`} 
-              onClick={onClick} 
-              color="plain"
-            />
+          <ResponsiveContainer width="99%" height={220}>
+              <AreaChart data={data.prices} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
+                  <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
+                  <YAxis dataKey="close" tickFormatter={(close) => close.toFixed(4)} domain={["auto", "auto"]} fontSize={12}/>
+                  <Area dataKey="close" opacity={0.5} stroke="#6042d7" fill="#6042d7"/>
+                  <Tooltip content={<CustomTooltipPRICES payload={data.prices}/>}/>
+              </AreaChart>
+          </ResponsiveContainer>     
 
-            <ResponsiveContainer width="99%" height={220}>
-                <AreaChart data={data.prices} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
-                    <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
-                    <YAxis dataKey="close" tickFormatter={(close) => close.toFixed(4)} domain={["auto", "auto"]} fontSize={12}/>
-                    <Area dataKey="close" opacity={0.5} stroke="#6042d7" fill="#6042d7"/>
-                    <Tooltip content={<CustomTooltipPRICES payload={data.prices}/>}/>
-                </AreaChart>
-            </ResponsiveContainer>     
+          <ResponsiveContainer width="99%" height={120}>
+              <AreaChart data={rsi} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
+                  <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
+                  <YAxis dataKey="rsi" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
+                  <Area dataKey="rsi" opacity={0.5} stroke="#6042d7" fill="#6042d7" />
+                  <Tooltip content={<CustomTooltipRSI payload={rsi}/>}/>
+              </AreaChart>
+          </ResponsiveContainer>
 
-            <ResponsiveContainer width="99%" height={120}>
-                <AreaChart data={rsi} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
-                    <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
-                    <YAxis dataKey="rsi" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
-                    <Area dataKey="rsi" opacity={0.5} stroke="#6042d7" fill="#6042d7" />
-                    <Tooltip content={<CustomTooltipRSI payload={rsi}/>}/>
-                </AreaChart>
-            </ResponsiveContainer>
-
-            <ResponsiveContainer width="99%" height={120}>
-                <AreaChart data={data.volumes} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
-                    <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
-                    <YAxis dataKey="volume" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
-                    <Area dataKey="volume" opacity={0.5} stroke="#6042d7" fill="#6042d7" />
-                    <Tooltip content={<CustomTooltipVOLUME payload={data.volumes}/>}/>
-                </AreaChart>
-            </ResponsiveContainer>
-
+          <ResponsiveContainer width="99%" height={120}>
+              <AreaChart data={data.volumes} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
+                  <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
+                  <YAxis dataKey="volume" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
+                  <Area dataKey="volume" opacity={0.5} stroke="#6042d7" fill="#6042d7" />
+                  <Tooltip content={<CustomTooltipVOLUME payload={data.volumes}/>}/>
+              </AreaChart>
+          </ResponsiveContainer>
         </>  
     )
 }

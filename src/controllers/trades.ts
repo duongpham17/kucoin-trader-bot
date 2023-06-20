@@ -5,9 +5,15 @@ import Trades from '../models/trades';
 
 export const trades = asyncBlock(async(req: Request, res: Response, next: NextFunction) => {
     
-    const filter = Object.assign({}, ...req.params.filter.split(",").map(el => ({[el.split("=")[0]]: el.split("=")[1]})))
+    const filter = Object.assign({}, ...req.params.filter.split(",").map(el => ({[el.split("=")[0]]: el.split("=")[1]})));
 
-    const data = await Trades.find(filter).sort({createdAt: -1});
+    let data: any;
+
+    if(filter){
+        data = await Trades.find(filter).sort({createdAt: -1});
+    } else {
+        data = await Trades.find().sort({createdAt: -1});
+    }
 
     if(!data) return next(new appError("Could not find any trades", 400));
 

@@ -11,7 +11,7 @@ const TradesContainer = () => {
     const {trades} = useAppSelector(state => state.trades);
 
     useEffect(() => {
-        dispatch(Trades.trades("running=true"));
+        dispatch(Trades.trades());
     }, [dispatch]);
 
     const filtered_market_ids = Array.from(new Set(trades?.map(el => el.market_id)));

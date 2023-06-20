@@ -14,7 +14,7 @@ const klines = (filter: string) => async (dispatch: Dispatch<ACTION>) => {
     }
 };
 
-const trades = (filter: string) => async (dispatch: Dispatch<ACTION>) => {
+const trades = (filter?: string) => async (dispatch: Dispatch<ACTION>) => {
     try{
         const res = await api.get(`/trades/${filter}`);
         dispatch({
