@@ -184,7 +184,7 @@ export const custom_close_position = async ({trade, price}: {trade: ITrades, pri
         ...trade.toObject(),
         _id: null,
         close_price: price,
-        profit_loss: (trade.side === "buy" ? (price-trade.open_long) : (trade.open_short-price)) * trade.position_size,
+        profit_loss: trade.side === "buy" ? (price-trade.open_long) * trade.position_size : (trade.open_short-price) * trade.position_size,
         closedAt: new Date(),
     });
     await Trades.findByIdAndUpdate(trade._id, {
@@ -201,6 +201,7 @@ export const quick_close_position = async ({trade, price, KucoinLive}: {trade: I
         if(!close) return false;
         const position = await KucoinLive.getPosition(close.orderId);
         if(!position) return false;
+        console.log(position)
         await custom_close_position({trade, price: position.markPrice});
     } else {
         await custom_close_position({trade, price});

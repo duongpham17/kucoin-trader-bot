@@ -1,4 +1,5 @@
-# Kucoin futures crypto trading bot (USDTM)
+# Private Kucoin futures crypto trading bot (USDTM)
+Self hosted nodes and server.
 
 ### IMPORTANT 
 Create a file called " config.env "
