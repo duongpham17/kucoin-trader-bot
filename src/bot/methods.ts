@@ -201,8 +201,7 @@ export const quick_close_position = async ({trade, price, KucoinLive}: {trade: I
         if(!close) return false;
         const position = await KucoinLive.getPosition(close.orderId);
         if(!position) return false;
-        console.log(position)
-        await custom_close_position({trade, price: position.markPrice});
+        await custom_close_position({trade, price: position.markPrice || price});
     } else {
         await custom_close_position({trade, price});
     };
