@@ -106,7 +106,7 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
         }
     };
 
-    if(strategy === "rsi counter long only"){
+    if(strategy === "rsi counter short only"){
         const klines = await KucoinLive.getKlines(5);
         if(klines) {
             const rsi = calculateRSI(klines.slice(150), trade.range_period_rsi);
