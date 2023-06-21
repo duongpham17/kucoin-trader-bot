@@ -163,28 +163,18 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
 export const calc_entry_price = async ({trade, price, KucoinLive}: {KucoinLive: any, trade: ITrades, price: number}) => {
     const is_entry_calculated = trade.open_long === 0 && trade.open_short === 0;
     if(is_entry_calculated === false) return false;
-    // const klines = await KucoinLive.getKlines(1);
-    // if(!klines) return false;
-    // const [high_data, low_data]: [high_data: number[], low_data: number[]] = [[], []];
-    // for(let [time, open, high, low, close, volume] of klines){
-    //     high_data.push(high);
-    //     low_data.push(low);
-    // };
-    // const [ highest, lowest ] = [Math.max(...high_data), Math.min(...low_data)];
-    // const open_short = Number(lowest - Number(trade.range_short || 0));
-    // const open_long = Number(highest + Number(trade.range_long || 0));
     const open_long = Number(price + Number(trade.range_long || 0));
     const open_short = Number(price - Number(trade.range_short || 0));
     await Trades.findByIdAndUpdate(trade._id, { open_short, open_long }, {new: true});
     return true;
 };
 
-export const custom_close_position = async ({trade, price}: {trade: ITrades, price: number}) => {
+export const clean_up_close_position = async ({trade, price}: {trade: ITrades, price: number}) => {
     await Orders.create({
         ...trade.toObject(),
         _id: null,
         close_price: price,
-        profit_loss: trade.side === "buy" ? (price-trade.open_long) * trade.position_size : (trade.open_short-price) * trade.position_size,
+        profit_loss: (trade.side === "buy" ? (price-trade.open_price) : (trade.open_price-price)) * trade.position_size,
         closedAt: new Date(),
     });
     await Trades.findByIdAndUpdate(trade._id, {
@@ -201,16 +191,16 @@ export const quick_close_position = async ({trade, price, KucoinLive}: {trade: I
         if(!close) return false;
         const position = await KucoinLive.getPosition(close.orderId);
         if(!position) return false;
-        await custom_close_position({trade, price: position.markPrice || price});
+        await clean_up_close_position({trade, price: position.markPrice || price});
     } else {
-        await custom_close_position({trade, price});
+        await clean_up_close_position({trade, price});
     };
 };
 
 export const close_position = async ({trade, price, KucoinLive}: {trade: ITrades, price: number, KucoinLive: any }) => {
     if(trade.live){
         const position = await KucoinLive.getPosition(trade.orderId);
-        if(position.isOpen === false) await custom_close_position({trade, price});
+        if(position.isOpen === false) await clean_up_close_position({trade, price});
     };
     const [
         stop_loss_hit, 
@@ -282,8 +272,8 @@ export const open_position = async ({trade, price, side, KucoinLive}: {trade: IT
     };
 };
 
+// Break - This action will stop trade from running, any trade open will close
 export const action_break = async ({trade, price, KucoinLive} : {trade: ITrades, price: number, KucoinLive: any}) => {
-    // Break - This action will stop trade from running, any trade open will close
     trade.running = false;
     trade.action = "bot";
     if(trade.orderId){
@@ -293,8 +283,8 @@ export const action_break = async ({trade, price, KucoinLive} : {trade: ITrades,
     }
 };
 
+// Manual - This action will close position, any trade open will close
 export const action_manual = async ({trade, price, KucoinLive} : {trade: ITrades, price: number, KucoinLive: any}) => {
-    // Manual - This action will close position, any trade open will close
     if(trade.orderId){
         trade.action = "manual"
         await quick_close_position({ trade, price, KucoinLive });
@@ -304,8 +294,8 @@ export const action_manual = async ({trade, price, KucoinLive} : {trade: ITrades
     }
 };
 
+// Delete - This action will delete position, any trade open will close
 export const action_delete = async ({trade, price, KucoinLive} : {trade: ITrades, price: number, KucoinLive: any}) => {
-    // Delete - This action will delete position, any trade open will close
     if(trade.orderId){
         trade.action = "delete"
         await quick_close_position({ trade, price, KucoinLive });
