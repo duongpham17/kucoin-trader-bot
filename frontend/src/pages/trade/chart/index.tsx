@@ -141,7 +141,7 @@ const Chart = () => {
             color="plain"
           />
 
-          <ResponsiveContainer width="99%" height={220}>
+          <ResponsiveContainer width="100%" height={220}>
               <AreaChart data={data.prices} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
                   <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
                   <YAxis dataKey="close" tickFormatter={(close) => close.toFixed(4)} domain={["auto", "auto"]} fontSize={12}/>
@@ -150,7 +150,7 @@ const Chart = () => {
               </AreaChart>
           </ResponsiveContainer>     
 
-          <ResponsiveContainer width="99%" height={120}>
+          <ResponsiveContainer width="100%" height={120}>
               <AreaChart data={rsi} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
                   <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
                   <YAxis dataKey="rsi" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
@@ -159,7 +159,7 @@ const Chart = () => {
               </AreaChart>
           </ResponsiveContainer>
 
-          <ResponsiveContainer width="99%" height={120}>
+          <ResponsiveContainer width="100%" height={120}>
               <AreaChart data={data.volumes} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
                   <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
                   <YAxis dataKey="volume" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>

@@ -187,13 +187,6 @@ const Create = () => {
                     <p>$ {(((values.position_size || 0) * (latest_price)) / (values.leverage || 0)).toFixed(2)}</p>
                 </Container>
 
-                <Button 
-                    label1="Create" 
-                    type="submit" 
-                    color='blue' 
-                    loading={loading}
-                />
-
             </form>
 
             </Slidein>
