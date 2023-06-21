@@ -22,13 +22,12 @@
         right: 0;
         top: 0;
         border-left: 1px solid var(--clr-main);
-        min-height: 100vh;
+        height: 100%;
         width: 0;
         animation: slidein 0.5s linear forwards;
         overflow-y: auto;
-        height: 100px;
         padding: 1rem;
-        padding-bottom: 4rem;
+        padding-bottom: 8rem;
         z-index: 1000;
         
         .iconOpen{

@@ -50,18 +50,28 @@ const Create = () => {
 
             <form onSubmit={onSubmit}>
 
-                <Input 
-                    label1="Market Id"
-                    value={values.market_id}
-                    onChange={() => {}}
+                <Button 
+                    label1="Create" 
+                    type="submit" 
+                    color='blue' 
+                    loading={loading}
+                    margin
                 />
-                
-                <Checkbox 
-                    label="Environment" 
-                    value={values.live ? "Live" : "Test"} 
-                    selected={values.live}
-                    onClick={() => onSetValue({live: !values.live})} 
-                />
+
+                <Flex>
+                    <Input 
+                        label1="Market Id"
+                        value={values.market_id}
+                        onChange={() => {}}
+                    />
+                    
+                    <Checkbox 
+                        label="Environment" 
+                        value={values.live ? "Live" : "Test"} 
+                        selected={values.live}
+                        onClick={() => onSetValue({live: !values.live})} 
+                    />
+                </Flex>
 
                 <Select 
                     label1="Strategy"
