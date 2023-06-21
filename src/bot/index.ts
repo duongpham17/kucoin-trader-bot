@@ -1,3 +1,8 @@
+/* 
+    This bot will work in the background, you can extract this bot to its own place. 
+    This bot will not work if the website is asleep or not open.
+*/
+
 import Trades from '../models/trades';
 
 import {

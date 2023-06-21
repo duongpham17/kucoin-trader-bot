@@ -9,7 +9,7 @@ Sign up to Kucoin - third party api for futures trading.
 ```
 https://www.kucoin.com
 ```
-Click on profile -> API management -> Create Api
+Click on profile -> API management -> Create Api,
 Fill out the config.env.
 ```
 KUCOIN_API_KEY=api_key
@@ -22,7 +22,7 @@ Sign up to MongoDB - database for storing our data.
 ```
 https://www.mongodb.com
 ```
-Create a new cluster -> connect -> drivers -> copy "mongodb+srv...majority"
+Create a new cluster -> connect -> drivers -> copy "mongodb+srv...majority",
 Fill out the config.env.
 ```
 NODE_ENV=development
