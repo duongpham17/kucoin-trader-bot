@@ -116,7 +116,7 @@ const Create = () => {
                     </>
                 }
 
-                {!values.strategy!.includes("rsi") && 
+                {(values.strategy!.includes("trend") || values.strategy!.includes("counter")) && 
                     <Flex>
                         <Input 
                             label1="Range Long"

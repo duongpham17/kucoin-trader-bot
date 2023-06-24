@@ -65,7 +65,7 @@ const HistoryOrders = () => {
 
   return ( orders === null ? <Loading center/> :
     <>
-      <Flex>
+      <Flex style={{margin: "1rem 0"}}>
         <Flex>
           <Label2 name="Total" value={!orders.length ? "0" : orders.length}/>
           <Label2 name="Win" value={RATE_memo.win} />
@@ -76,7 +76,7 @@ const HistoryOrders = () => {
         </Flex>
         <Flex>
           {openLocal === "test" && !!orders.length && 
-            <Message message='clear test'>
+            <Message message='clear'>
               <Square label1={<AiFillDelete/>} color='plain' onClick={() => dispatch(Orders.cleartest())} />
             </Message>
           }

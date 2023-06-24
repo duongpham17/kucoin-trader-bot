@@ -2,7 +2,9 @@ export type TradingStrategy =
     "counter" | "counter long only" | "counter short only" | 
     "trend" | "trend long only" | "trend short only" |
     "rsi counter" | "rsi counter long only" | "rsi counter short only" | 
-    "rsi trend" | "rsi trend long only" | "rsi trend short only";
+    "rsi trend" | "rsi trend long only" | "rsi trend short only" |
+    "high low counter" |
+    "high low trend"
 
 export type Side = 
     "buy" | "sell" | "both";
@@ -96,6 +98,20 @@ export const strategies: Strategies[] = [
         side: "sell",
         description: `
             Relative strength index, when over bought short only, no longing
+        `
+    },
+    {
+        name: "high low counter",
+        side: "both",
+        description: `
+            Highest and lowest price in the 5 minute time range, highest short, lowest long
+        `
+    },
+    {
+        name: "high low trend",
+        side: "both",
+        description: `
+            Highest and lowest price in the 5 minute time range, highest long, lowest short
         `
     },
 ];

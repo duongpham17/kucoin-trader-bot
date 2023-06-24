@@ -12,6 +12,7 @@ export const exchanage_api = async ({trade}: {trade: ITrades}) => {
     }
 };
 
+// [time, open, high, low, close, volume]
 export const calculateRSI = (dataSet: [number, number, number, number, number, number][], period=14): {rsi: number}[] => {
     const closePrices = dataSet.map(data => data[4]);
     const gains: number[] = [];
@@ -148,6 +149,20 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
         }
     };
 
+    if(strategy === "high low counter"){
+        const long = price <= open_short;
+        isLong = long;
+        const short = price >= open_long;
+        isShort = short;
+    };
+
+    if (strategy === "high low trend"){
+        const long = price >= open_long;
+        isLong = long;
+        const short = price <= open_short;
+        isShort = short;
+    };
+
     const isNoSide = !isLong && !isShort;
 
     const side: "buy" | "sell" = isLong ? "buy" : "sell";
@@ -163,8 +178,15 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
 export const calc_entry_price = async ({trade, price, KucoinLive}: {KucoinLive: any, trade: ITrades, price: number}) => {
     const is_entry_calculated = trade.open_long === 0 && trade.open_short === 0;
     if(is_entry_calculated === false) return false;
-    const open_long = Number(price + Number(trade.range_long || 0));
-    const open_short = Number(price - Number(trade.range_short || 0));
+    let [open_long, open_short] = [0,0];
+    if(trade.strategy.toLowerCase().includes("high low")){
+        const klines: Klines = await KucoinLive.getKlines(5);
+        open_long = Math.max(...klines.map((data) => data[2]));
+        open_short = Math.min(...klines.map((data) => data[3]));
+    } else {
+        open_long = Number(price + Number(trade.range_long || 0));
+        open_short = Number(price - Number(trade.range_short || 0));
+    };
     await Trades.findByIdAndUpdate(trade._id, { open_short, open_long }, {new: true});
     return true;
 };
