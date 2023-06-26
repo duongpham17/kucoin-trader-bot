@@ -1,8 +1,8 @@
-import React from 'react'
 import { useAppDispatch, useAppSelector } from '@redux/hooks/useRedux';
 import Trades from '@redux/actions/trades';
 import {Stats} from '@redux/types/trades';
 import {IOrders} from '@redux/types/orders';
+import useLoading from '@hooks/useLoading';
 import {timeDifference} from '@utils/functions';
 
 import Container from '@components/containers/Style1';
@@ -92,6 +92,8 @@ const StatsContainer = () => {
 
   const {trades, stats} = useAppSelector(state => state.trades);
 
+  const {loading, onLoading} = useLoading();
+
   return (
     <div>
       {trades?.map(el => 
@@ -100,8 +102,18 @@ const StatsContainer = () => {
           <Flex>
             <Bullets text={[el.market_id, el.live?"LIVE":"TEST", el.strategy.toUpperCase()]} />
             <Flex>
-              <Button label1={<AiFillDelete/>} onClick={ () => dispatch(Trades.clear(el._id))} color="dark"/>
-              <Button label1="calculate" onClick={ () => dispatch(Trades.stats(el._id))} color="dark"/>
+              <Button 
+                label1={<AiFillDelete/>} 
+                loading={loading}
+                onClick={() => onLoading(() => dispatch(Trades.clear(el._id)))} 
+                color="dark"
+              />
+              <Button 
+                label1="calculate" 
+                loading={loading}
+                onClick={() => onLoading(() => dispatch(Trades.stats(el._id)))} 
+                color="dark"
+              />
             </Flex>
           </Flex>
 
@@ -109,7 +121,7 @@ const StatsContainer = () => {
             <Label3 name="" value={`ID: ${el._id}`} color="light" size="0.8rem" />
           </Flex>
           
-         {stats && <OrdersContainer stats={stats.find(s => s.trade._id === el._id) || undefined} />}
+         {stats && <OrdersContainer stats={stats.find(s => s.trade._id === el._id)} />}
 
         </Container>  
       )}
