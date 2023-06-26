@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@redux/hooks/useRedux';
 import Trades from '@redux/actions/trades';
-import {Stats} from '@redux/types/trades';
 import {IOrders} from '@redux/types/orders';
 import useLoading from '@hooks/useLoading';
 import {timeDifference} from '@utils/functions';
@@ -16,10 +15,10 @@ import Button from '@components/buttons/Button';
 
 import {AiFillDelete} from 'react-icons/ai';
 
-const OrdersContainer = ({stats}: {stats: Stats | undefined}) => {
+const OrdersContainer = ({orders}: {orders: IOrders[]}) => {
 
   const PNL_memo = (orders: IOrders[]) => {
-    if(!orders) return {loss: 0, profit: 0};
+    if(!orders.length || !orders) return {loss: 0, profit: 0};
     const data = orders.reduce((acc, cur) => {
       if(cur.profit_loss >= 0){
         acc.profit += cur.profit_loss
@@ -32,7 +31,7 @@ const OrdersContainer = ({stats}: {stats: Stats | undefined}) => {
   };
 
   const RATE_memo = (orders: IOrders[]) => {
-    if(!orders) return { percentage: 0, win: 0,lose: 0 };
+    if(!orders.length || !orders) return { percentage: 0, win: 0,lose: 0 };
     const data = orders.reduce((acc, obj) => {
       const calc = obj.profit_loss >= 0 ? "win" : "lose";
       return {...acc, [calc]: acc[calc] + 1};
@@ -48,16 +47,16 @@ const OrdersContainer = ({stats}: {stats: Stats | undefined}) => {
     }
   };
 
-  const PNL = PNL_memo(stats?.orders || []);
+  const PNL = PNL_memo(orders);
 
-  const RATES = RATE_memo(stats?.orders || []);
+  const RATES = RATE_memo(orders);
 
-  return ( !stats ? <div></div> :
+  return (
     <div>
       <Line/>
 
       <Flex>
-        <Label2 name="Total" value={stats.orders.length} />
+        <Label2 name="Total" value={orders.length} />
         <Label2 name="Win" value={RATES.win} />
         <Label2 name="Lose" value={RATES.lose}  />
         <Label2 name="%" value={RATES.percentage}  />
@@ -65,7 +64,7 @@ const OrdersContainer = ({stats}: {stats: Stats | undefined}) => {
         <Label2 name="Loss" value={PNL.loss.toFixed(2)} color="red" />
       </Flex>
 
-      <Pagination data={stats.orders} show={5}>
+      <Pagination data={orders} show={5}>
         {(el) => 
           <div key={el._id}>
             <Line/>
@@ -81,7 +80,6 @@ const OrdersContainer = ({stats}: {stats: Stats | undefined}) => {
           </div>  
         }
       </Pagination>
-
     </div>
   )
 }
@@ -121,7 +119,9 @@ const StatsContainer = () => {
             <Label3 name="" value={`ID: ${el._id}`} color="light" size="0.8rem" />
           </Flex>
           
-         {stats && <OrdersContainer stats={stats.find(s => s.trade._id === el._id)} />}
+          {stats && stats.find(s => s.trade._id === el._id) &&
+            <OrdersContainer orders={stats.find(s => s.trade._id === el._id)?.orders || []} />
+          }
 
         </Container>  
       )}
