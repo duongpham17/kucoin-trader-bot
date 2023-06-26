@@ -62,12 +62,39 @@ const remove = (id: string) => async (dispatch: Dispatch<ACTION>) => {
     }
 };
 
+const stats = (id: string) => async (dispatch: Dispatch<ACTION>) => {
+    try{
+        const res = await api.get(`/trades/stats/${id}`);
+        dispatch({
+            type: TYPES.TRADES_STATS,
+            payload: res.data.data
+        });
+    } catch (error: any) {
+        console.log("Please reload")
+    }
+};
+
+const clear = (id: string) => async (dispatch: Dispatch<ACTION>) => {
+    try{
+        await api.delete(`/trades/orders/${id}`);
+        dispatch({
+            type: TYPES.TRADES_CLEAR,
+            payload: id
+        });
+    } catch (error: any) {
+        console.log("Please reload")
+        console.log(error.response)
+    }
+};
+
 const Trades = {
     trades,
     klines,
     create,
     update,
-    remove
+    remove,
+    stats,
+    clear
 };
 
 export default Trades;

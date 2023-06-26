@@ -29,7 +29,7 @@ const cleartest = () => async (dispatch: Dispatch<ACTION>) => {
 
 const Orders = {
     orders,
-    cleartest
+    cleartest,
 };
 
 export default Orders;

@@ -2,9 +2,10 @@
 
 export interface IOrders {
     _id: string,
-    live: boolean,
+    tradeId: string,
     orderId: string,
     market_id: string,
+    live: boolean,
     exchange: string,
     running: boolean,
     action: "manual" | "bot" | "delete" | "break",
@@ -42,7 +43,8 @@ export type OrdersObjectKeys = keyof INITIALSTATE
 
 export enum TYPES {
     ORDERS = "ORDERS",
-    ORDERS_CLEAR_TEST = "ORDERS_CLEAR_TEST"
+    ORDERS_CLEAR_TEST = "ORDERS_CLEAR_TEST",
+    ORDERS_CLEAR_TEST_TRADE = "ORDERS_CLEAR_TEST_TRADE"
 };
 
 interface ORDERS {

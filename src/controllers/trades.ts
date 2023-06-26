@@ -2,6 +2,7 @@ import { NextFunction, Response, Request } from 'express';
 import { appError, asyncBlock } from '../@utils/helper';
 import { kucoin } from '../@api/kucoin';
 import Trades from '../models/trades';
+import Orders from '../models/orders';
 
 export const trades = asyncBlock(async(req: Request, res: Response, next: NextFunction) => {
     
@@ -77,6 +78,38 @@ export const remove = asyncBlock(async(req: Request, res: Response, next: NextFu
     return res.status(200).json({
         status: "success",
         data: trade
+    });
+  
+});
+
+export const stats = asyncBlock(async(req: Request, res: Response, next: NextFunction) => {
+
+    const tradeId = req.params.id;
+
+    const trade = await Trades.findById(tradeId);
+
+    if(!trade) return next(new appError("Could not find any trades", 400));
+
+    const orders = await Orders.find({tradeId}).sort({createdAt: -1});
+
+    if(!orders) return next(new appError("Could not find any orders matching trade id", 400));
+
+    return res.status(200).json({
+        status: "success",
+        data: {
+            trade,
+            orders,
+        }
+    });
+  
+});
+
+export const clearTrade = asyncBlock(async(req: Request, res: Response, next: NextFunction) => {
+
+    await Orders.deleteMany({tradeId: req.params.id});
+
+    return res.status(200).json({
+        status: "success",
     });
   
 });

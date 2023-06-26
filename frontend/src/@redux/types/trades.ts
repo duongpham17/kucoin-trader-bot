@@ -1,3 +1,5 @@
+import {IOrders} from './orders';
+
 /*TYPES**************************************************************************************************************/
 
 export interface ITrades {
@@ -37,6 +39,8 @@ export interface ITrades {
 
 export type KLines = [number, number, number, number, number, number][];
 
+export type Stats = {trade: ITrades, orders: IOrders[]};
+
 /*STATE**************************************************************************************************************/
 
 export interface ResponseType {
@@ -46,6 +50,7 @@ export interface ResponseType {
 export interface INITIALSTATE {
     trades: ITrades[] | null,
     klines: KLines | [],
+    stats: Stats[] | null,
     latest_price: number,
 };
 
@@ -55,10 +60,12 @@ export type TradesObjectKeys = keyof INITIALSTATE
 
 export enum TYPES {
     TRADES = "TRADES",
+    TRADES_STATS = "TRADES_STATS",
     TRADES_UPDATE = "TRADES_UPDATE",
     TRADES_KLINES = "KLINES",
     TRADES_CREATE = "TRADES_CREATE",
-    TRADES_DELETE = "TRADES_DELETE"
+    TRADES_DELETE = "TRADES_DELETE",
+    TRADES_CLEAR = "TRADES_CLEAR"
 };
 
 interface TRADES {
@@ -84,6 +91,16 @@ interface UPDATE {
 interface DELETE {
     type: TYPES.TRADES_DELETE,
     payload: ITrades
+};
+
+interface STATS {
+    type: TYPES.TRADES_STATS,
+    payload: Stats
+};
+
+interface CLEAR {
+    type: TYPES.TRADES_CLEAR,
+    payload: string
 }
 
-export type ACTION = TRADES | KLINES | CREATE | UPDATE | DELETE
+export type ACTION = TRADES | KLINES | CREATE | UPDATE | DELETE | STATS | CLEAR

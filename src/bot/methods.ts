@@ -195,6 +195,7 @@ export const clean_up_close_position = async ({trade, price}: {trade: ITrades, p
     await Orders.create({
         ...trade.toObject(),
         _id: null,
+        tradeId: trade._id,
         close_price: price,
         profit_loss: (trade.side === "buy" ? (price-trade.open_price) : (trade.open_price-price)) * trade.position_size,
         closedAt: new Date(),

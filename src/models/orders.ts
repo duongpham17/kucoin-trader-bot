@@ -3,6 +3,7 @@ import { Types, Schema, model, Document } from 'mongoose';
 export interface IOrders extends Partial<Document> {
     _id: Types.ObjectId,
     //
+    tradeId: string,
     orderId: string,
     live: boolean,
     strategy: string,
@@ -31,6 +32,9 @@ export interface IOrders extends Partial<Document> {
 const OrdersSchema = new Schema<IOrders>({
     live: {
         type: Boolean,
+    },
+    tradeId:{
+        type: String
     },
     orderId: {
         type: String,

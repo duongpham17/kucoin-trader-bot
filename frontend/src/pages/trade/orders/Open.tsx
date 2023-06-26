@@ -1,8 +1,6 @@
-import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@redux/hooks/useRedux';
 import { ITrades } from '@redux/types/trades';
 import Trades from '@redux/actions/trades';
-import useQuery from '@hooks/useQuery';
 
 import { AiFillDelete, AiOutlinePause, AiOutlineClose } from 'react-icons/ai';
 
@@ -20,19 +18,11 @@ import useOpen from '@hooks/useOpen';
 
 const Open = () => {
   
-  const [dispatch, query] = [useAppDispatch(), useQuery()];
+  const dispatch = useAppDispatch();
 
   const {openValue, onOpenValue} = useOpen({initialState: ""});
 
   const {trades, latest_price} = useAppSelector(state => state.trades);
-
-  const symbol = query.getQueryValue("symbol");
-
-  useEffect(() => {
-    let interval = setInterval(() => dispatch(Trades.trades(`market_id=${symbol}`)), 5000);
-    dispatch(Trades.trades(`market_id=${symbol}`));
-    return () => clearInterval(interval);
-  }, [dispatch, symbol]);
 
   const onStopTrading = (trade:ITrades) => {
     dispatch(Trades.update({...trade, action: "break"}));
