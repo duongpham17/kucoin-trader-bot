@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { AreaChart, XAxis, YAxis, Area, Tooltip, ResponsiveContainer} from 'recharts';
 import { KLines } from '@redux/types/trades';
 
@@ -39,26 +38,13 @@ const calculateRSI = (dataSet: [number, number, number, number, number, number][
   }));
 };
 
-const CustomTooltipRSI = ({ active, payload }: {active?: any, payload: any}) => {
+const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
       <div>
           <p>{data.time}</p>
           <p>RSI: {data.rsi.toFixed(2)}</p>
-      </div>
-    );
-  }
-  return null;
-};
-
-const CustomTooltipVOLUME = ({ active, payload }: {active?: any, payload: any}) => {
-  if (active && payload && payload.length) {
-    const data = payload[0].payload;
-    return (
-      <div>
-        <p>{data.time}</p>
-        <p>Volume {data.volume}</p>
       </div>
     );
   }
@@ -75,7 +61,7 @@ const Rsi = ({klines}: {klines: KLines}) => {
         <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
         <YAxis dataKey="rsi" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
         <Area dataKey="rsi" opacity={0.5} stroke="#6042d7" fill="#6042d7" />
-        <Tooltip content={<CustomTooltipRSI payload={rsi}/>}/>
+        <Tooltip content={<CustomToolTips payload={rsi}/>}/>
       </AreaChart>
     </ResponsiveContainer>
   )

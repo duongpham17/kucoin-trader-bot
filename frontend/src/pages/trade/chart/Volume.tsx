@@ -9,7 +9,7 @@ const calc_volume = (dataSet: [number, number, number, number, number, number][]
     return volumes
 };
 
-const CustomTooltipVOLUME = ({ active, payload }: {active?: any, payload: any}) => {
+const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
@@ -32,7 +32,7 @@ const Volume = ({klines}: {klines: KLines}) => {
           <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
           <YAxis dataKey="volume" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
           <Area dataKey="volume" opacity={0.5} stroke="#6042d7" fill="#6042d7" />
-          <Tooltip content={<CustomTooltipVOLUME payload={data}/>}/>
+          <Tooltip content={<CustomToolTips payload={data}/>}/>
         </AreaChart>
       </ResponsiveContainer>
     )

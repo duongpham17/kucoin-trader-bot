@@ -10,7 +10,7 @@ const calc_prices = (dataSet: [number, number, number, number, number, number][]
   return prices
 };
 
-const CustomTooltipPRICES = ({ active, payload }: {active?: any, payload: any}) => {
+const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
       return (
@@ -37,7 +37,7 @@ const Prices = ({klines}:{klines: KLines}) => {
           <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
           <YAxis dataKey="close" tickFormatter={(close) => close.toFixed(4)} domain={["auto", "auto"]} fontSize={12}/>
           <Area dataKey="close" opacity={0.5} stroke="#6042d7" fill="#6042d7"/>
-          <Tooltip content={<CustomTooltipPRICES payload={data}/>}/>
+          <Tooltip content={<CustomToolTips payload={data}/>}/>
         </AreaChart>
       </ResponsiveContainer>     
     )
