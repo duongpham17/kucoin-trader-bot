@@ -9,7 +9,6 @@ import Time from './Time';
 import Prices from './Prices';
 import Rsi from './Rsi';
 import Volume from './Volume';
-import Speed from './Speed';
 
 const Chart = () => {
 
@@ -32,8 +31,6 @@ const Chart = () => {
     return ( !klines ? <Loading size={50} center/> : 
         <>
           <Time />
-
-          <Speed klines={klines} />
 
           <Prices klines={klines} />
 
