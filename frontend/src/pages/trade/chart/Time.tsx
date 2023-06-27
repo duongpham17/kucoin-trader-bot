@@ -1,0 +1,28 @@
+import useQuery from '@hooks/useQuery';
+import Select from '@components/options/Style1';
+
+const Time = () => {
+
+    const query = useQuery();
+
+    const onClick = (value: string | number) => {
+        query.setQuery("period", 
+            value.toString().includes("hour") ? Number(value.toString().split(" ")[0]) * 60 :
+            value.toString().includes("day") ? Number(value.toString().split(" ")[0]) * 60 * 24 :
+            value.toString().includes("week") ? Number(value.toString().split(" ")[0]) * 60 * 24 * 7 :
+            value.toString().includes("month") ? Number(value.toString().split(" ")[0]) * 60 * 24 * 7 * 28 :
+            Number(value.toString().split(" ")[0])
+        );
+    };
+
+    return ( 
+        <Select 
+            items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
+            selected={`Period ${query.getQueryValue("period") || 1}`} 
+            onClick={onClick} 
+            color="plain"
+        /> 
+    )
+}
+
+export default Time;
