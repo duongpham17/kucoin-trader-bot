@@ -5,10 +5,11 @@ import useQuery from '@hooks/useQuery';
 
 import Loading from '@components/loading/Spinner';
 
+import Time from './Time';
+import Prices from './Prices';
 import Rsi from './Rsi';
 import Volume from './Volume';
-import Prices from './Prices';
-import Time from './Time';
+import Speed from './Speed';
 
 const Chart = () => {
 
@@ -31,6 +32,8 @@ const Chart = () => {
     return ( !klines ? <Loading size={50} center/> : 
         <>
           <Time />
+
+          <Speed klines={klines} />
 
           <Prices klines={klines} />
 

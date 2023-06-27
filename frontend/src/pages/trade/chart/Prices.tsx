@@ -2,14 +2,6 @@ import { AreaChart, XAxis, YAxis, Area, Tooltip, ResponsiveContainer} from 'rech
 import { KLines } from '@redux/types/trades';
 import Flex from '@components/flex/Style1';
 
-const calc_prices = (dataSet: [number, number, number, number, number, number][]) => {
-  const prices:  {time: string, open: number, high: number, low: number, close: number, volume: number}[] = [];
-  for(let [time, open, high, low, close, volume] of dataSet){
-    prices.push({time: new Date(time).toISOString(), open, high, low, close, volume});
-  };
-  return prices
-};
-
 const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload;
@@ -29,18 +21,22 @@ const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
 
 const Prices = ({klines}:{klines: KLines}) => {
 
-    const data = calc_prices(klines)
+  const data: {time: string, open: number, high: number, low: number, close: number, volume: number}[] 
+    = klines.map(([time, open, high, low, close, volume]) => ({
+      time: new Date(time).toISOString(), 
+      open, high, low, close, volume
+  }));
 
-    return (
-      <ResponsiveContainer width="100%" height={220}>
-        <AreaChart data={data} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
-          <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
-          <YAxis dataKey="close" tickFormatter={(close) => close.toFixed(4)} domain={["auto", "auto"]} fontSize={12}/>
-          <Area dataKey="close" opacity={0.5} stroke="#6042d7" fill="#6042d7"/>
-          <Tooltip content={<CustomToolTips payload={data}/>}/>
-        </AreaChart>
-      </ResponsiveContainer>     
-    )
+  return (
+    <ResponsiveContainer width="100%" height={220}>
+      <AreaChart data={data} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
+        <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
+        <YAxis dataKey="close" tickFormatter={(close) => close.toFixed(4)} domain={["auto", "auto"]} fontSize={12}/>
+        <Area dataKey="close" opacity={0.5} stroke="#6042d7" fill="#6042d7"/>
+        <Tooltip content={<CustomToolTips payload={data}/>}/>
+      </AreaChart>
+    </ResponsiveContainer>     
+  )
 }
 
 export default Prices;

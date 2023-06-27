@@ -1,14 +1,6 @@
 import { AreaChart, XAxis, YAxis, Area, Tooltip, ResponsiveContainer} from 'recharts';
 import { KLines } from '@redux/types/trades';
 
-const calc_volume = (dataSet: [number, number, number, number, number, number][]) => {
-    const volumes: {time: string, volume: number}[] = [];
-    for(let [time, open, high, low, close, volume] of dataSet){
-      volumes.push({time: new Date(time).toISOString(), volume: volume});
-    };
-    return volumes
-};
-
 const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
@@ -24,7 +16,7 @@ const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
 
 const Volume = ({klines}: {klines: KLines}) => {
 
-    const data = calc_volume(klines);
+  const data: {time: string, volume: number}[] = klines.map(data => ({time: new Date(data[0]).toISOString(), volume: data[5]}));
 
     return (
       <ResponsiveContainer width="100%" height={120}>
