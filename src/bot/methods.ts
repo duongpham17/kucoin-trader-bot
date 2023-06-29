@@ -244,7 +244,7 @@ export const close_position = async ({trade, price, KucoinLive}: {trade: ITrades
     //trailing take profit, keep increasing the range of profit taking to match volatility.
     if(take_profit_hit){
         await Trades.findByIdAndUpdate(trade._id, {
-            open_stop_loss: trade.side === "buy" ? price - (trade.range_stop_loss/2) : price + (trade.range_stop_loss/2),
+            open_stop_loss: trade.side === "buy" ? price - (trade.range_stop_loss*0.01) : price + (trade.range_stop_loss*0.01),
             open_take_profit: trade.side === "buy" ? price + trade.range_take_profit : price - trade.range_take_profit
         }, {new: true});
         return;
