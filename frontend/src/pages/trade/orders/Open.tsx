@@ -153,10 +153,10 @@ const Open = () => {
 
               {el.strategy.includes("rsi") &&
                 <Flex>
+                  <Label2 name="Timer" value={!el.range_time ? "..." : `${el.range_time} min`} />
                   <Label2 name="RSI Over bought"  value={el.range_over_bought_rsi} />
                   <Label2 name="RSI Over Sold" value={el.range_over_sold_rsi} />
                   <Label2 name="Period"   value={el.range_period_rsi} />
-                  <Label2 name=""  value=""/>
                 </Flex>
               }
 
