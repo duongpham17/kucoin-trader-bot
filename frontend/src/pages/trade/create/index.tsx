@@ -33,13 +33,14 @@ const Create = () => {
         range_over_bought_rsi: 70,
         range_over_sold_rsi: 30,
         range_period_rsi: 10,
+        range_time: 0,
         createdAt: new Date(),
     };
 
     const { onSubmit, onChange, onSetValue, values, errors, loading, onClear } = useForm(initialState, callback, validation);
 
     async function callback(){
-        await dispatch(Trades.create(values));
+        await dispatch(Trades.create({...values}));
         onClear();
     };
 
@@ -79,6 +80,15 @@ const Create = () => {
                     items={strategies.map(el => el.name)}
                     selected={!values.strategy ? "Select" : `${values.strategy} : ${description(values.strategy)}` }
                     onClick={e => onSetValue({strategy: e})}
+                />
+
+                <Input 
+                    label1="Timer"
+                    placeholder='minutes'
+                    type="number"
+                    name="range_time"
+                    value={values.range_time || ""}
+                    onChange={onChange}
                 />
 
                 {values.strategy!.includes("rsi") && 

@@ -23,6 +23,7 @@ export interface IOrders {
     range_period_rsi: number,
     range_stop_loss: number,
     range_take_profit: number,
+    range_time: number,
     closedAt: Date,
     createdAt: Date,
 };

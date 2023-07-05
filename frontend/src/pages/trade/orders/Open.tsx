@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@redux/hooks/useRedux';
 import { ITrades } from '@redux/types/trades';
 import Trades from '@redux/actions/trades';
-
+import { timeExpire } from '@utils/functions';
 import { AiFillDelete, AiOutlinePause, AiOutlineClose } from 'react-icons/ai';
 
 import Spinner from '@components/loading/Spinner';
@@ -135,7 +135,7 @@ const Open = () => {
                   <Label2 name="Diff Take Profit" value={Math.abs(el.open_take_profit - latest_price).toFixed(5)}/>
                 </Flex>
                 <Flex>
-                  <Label2 name="" value=""/>
+                  <Label2 name="Expire in" value={`${timeExpire(el.createdAt, el.range_time)} s`}/>
                   <Label2 name="Points" value={el.side === "sell" ? Math.abs(el.open_long-latest_price).toFixed(5) : Math.abs(latest_price-el.open_long).toFixed(5)}/>
                   <Label2 name="Stop Loss" value={el.open_stop_loss.toFixed(5)} />
                   <Label2 name="Diff Stop Loss" value={Math.abs(latest_price - el.open_stop_loss).toFixed(5)}/>
@@ -147,7 +147,7 @@ const Open = () => {
                 <Label2 name="Position Size" value={el.position_size}/>
                 <Label2 name="Leverage" value={`${el.leverage}x`}/>
                 <Label2 name="Estimated Cost" value={`$${cost_risk(el.position_size, el.open_long, el.leverage)}`}/>
-                <Label2 name="" value={""} />
+                <Label2 name="Timer" value={!el.range_time ? "..." : `${el.range_time} min`} />
               </Flex>
               <Line />
 

@@ -84,3 +84,8 @@ export const second_till_zero = (minute: number) => {
     const second_to_zero = (minute * 60) - Math.trunc(convert_to_seconds);
     return second_to_zero
 };
+
+export const timeExpire = (future: Date, milli=0) => {
+    const time = (new Date(future).getTime()+(milli*60*1000)) - Date.now();
+    return Math.round(time / 60 / 1000);
+};

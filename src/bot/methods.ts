@@ -1,5 +1,5 @@
 import {kucoin, Klines} from '../@api/kucoin';
-import {generateid} from '../@utils/functions';
+import {generateid, timeExpire} from '../@utils/functions';
 import Trades, {ITrades} from '../models/trades';
 import Orders from '../models/orders';
 
@@ -228,16 +228,14 @@ export const close_position = async ({trade, price, KucoinLive}: {trade: ITrades
     const [
         stop_loss_hit, 
         take_profit_hit,
+        time_expired,
     ] = [
         trade.side === "buy" ? price <= trade.open_stop_loss : price >= trade.open_stop_loss, 
         trade.side === "buy" ? price >= trade.open_take_profit : price <= trade.open_take_profit,
+        timeExpire(trade.createdAt, trade.range_time) < 0
     ];
-    // price has not hit any targets.
-    if(!stop_loss_hit && !take_profit_hit) {
-        return;
-    };
     // profit or loss will close via stop losss.
-    if(stop_loss_hit){
+    if(stop_loss_hit || time_expired){
         await quick_close_position({trade, price, KucoinLive});
         return;
     };

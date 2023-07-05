@@ -24,6 +24,7 @@ export interface IOrders extends Partial<Document> {
     range_period_rsi: number,
     range_stop_loss: number,
     range_take_profit: number,
+    range_time: number,
     //
     closedAt: Date,
     createdAt: Date,
@@ -94,6 +95,9 @@ const OrdersSchema = new Schema<IOrders>({
     },
     range_take_profit: {
         type: Number
+    },
+    range_time: {
+        type: Number,
     },
     closedAt: {
         type: Date,

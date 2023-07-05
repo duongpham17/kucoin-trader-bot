@@ -21,7 +21,7 @@ export default (): void => {
 
     frontend(app, express);
 
-    // bot();
+    bot();
 
     port(app);
 

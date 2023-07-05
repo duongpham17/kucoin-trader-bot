@@ -28,4 +28,9 @@ export const isObjectEmpty = (order: Object) => {
 export const timeExpired = (iso: Date, minutes: number) => {
     const isExpired = Date.now() >= ( new Date(iso).getTime() + (minutes * 60 * 1000) )
     return isExpired
-}
+};
+
+export const timeExpire = (future: Date, milli=0) => {
+    const time = (new Date(future).getTime()+(milli*60*1000)) - Date.now();
+    return time
+};
