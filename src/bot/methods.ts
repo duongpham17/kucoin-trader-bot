@@ -232,7 +232,7 @@ export const close_position = async ({trade, price, KucoinLive}: {trade: ITrades
     ] = [
         trade.side === "buy" ? price <= trade.open_stop_loss : price >= trade.open_stop_loss, 
         trade.side === "buy" ? price >= trade.open_take_profit : price <= trade.open_take_profit,
-        timeExpire(trade.createdAt, trade.range_time) < 0
+        trade.range_time === 0 ? false : timeExpire(trade.createdAt, trade.range_time) < 0
     ];
     // profit or loss will close via stop losss.
     if(stop_loss_hit || time_expired){

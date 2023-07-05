@@ -130,15 +130,15 @@ const Open = () => {
                 <Line />
                 <Flex>
                   <Label2 name="PNL" value={profit_loss(el, latest_price).toFixed(2)} color={profit_loss(el, latest_price) >= 0 ? "green" : "red"}/>
+                  <Label2 name="Expire in" value={`${el.range_time===0 ?"not set":timeExpire(el.createdAt, el.range_time)} min`}/>
                   <Label2 name="Entry Price" value={el.open_price} />
                   <Label2 name="Take Profit" value={el.open_take_profit.toFixed(5)} />
-                  <Label2 name="Diff Take Profit" value={Math.abs(el.open_take_profit - latest_price).toFixed(5)}/>
                 </Flex>
                 <Flex>
-                  <Label2 name="Expire in" value={`${timeExpire(el.createdAt, el.range_time)} s`}/>
+                  <Label2 name="" value=""/>
+                  <Label2 name="" value=""/>
                   <Label2 name="Points" value={el.side === "sell" ? Math.abs(el.open_long-latest_price).toFixed(5) : Math.abs(latest_price-el.open_long).toFixed(5)}/>
                   <Label2 name="Stop Loss" value={el.open_stop_loss.toFixed(5)} />
-                  <Label2 name="Diff Stop Loss" value={Math.abs(latest_price - el.open_stop_loss).toFixed(5)}/>
                 </Flex>
             </div>
           :
@@ -147,7 +147,7 @@ const Open = () => {
                 <Label2 name="Position Size" value={el.position_size}/>
                 <Label2 name="Leverage" value={`${el.leverage}x`}/>
                 <Label2 name="Estimated Cost" value={`$${cost_risk(el.position_size, el.open_long, el.leverage)}`}/>
-                <Label2 name="Timer" value={!el.range_time ? "..." : `${el.range_time} min`} />
+                <Label2 name=""  value=""/>
               </Flex>
               <Line />
 
@@ -163,16 +163,16 @@ const Open = () => {
               {!el.strategy.includes("rsi") && 
               <>
                 <Flex> 
-                  <Label2 name="Range Long"  value={el.range_long.toFixed(5)} />
-                  <Label2 name="Range Short" value={el.range_short.toFixed(5)} />
+                  <Label2 name="Timer" value={!el.range_time ? "..." : `${el.range_time} min`} />
                   <Label2 name="Open Long"   value={el.open_long.toFixed(5)} />
-                  <Label2 name="Open Short"  value={el.open_short.toFixed(5)} />
+                  <Label2 name="Range Long"  value={el.range_long.toFixed(5)} />
+                  <Label2 name="Range Take Profit" value={el.range_take_profit.toFixed(5)} />
                 </Flex>
                 <Flex> 
-                  <Label2 name="Range Take Profit" value={el.range_take_profit.toFixed(5)} />
+                  <Label2 name=""  value="" />
+                  <Label2 name="Open Short"  value={el.open_short.toFixed(5)} />
+                  <Label2 name="Range Short" value={el.range_short.toFixed(5)} />
                   <Label2 name="Range Stop Loss"   value={el.range_stop_loss.toFixed(5)} />
-                  <Label2 name="Diff Long"   value={Math.abs(latest_price-el.open_long).toFixed(5)} />
-                  <Label2 name="Diff Short"  value={Math.abs(latest_price-el.open_short).toFixed(5)} />
                 </Flex>
               </>
             }
