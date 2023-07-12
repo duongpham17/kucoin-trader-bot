@@ -44,7 +44,7 @@ const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
     return (
       <div>
           <p>{data.time}</p>
-          <p>RSI: {data.rsi.toFixed(2)}</p>
+          <p>RSI {data.rsi.toFixed(2)}</p>
       </div>
     );
   }

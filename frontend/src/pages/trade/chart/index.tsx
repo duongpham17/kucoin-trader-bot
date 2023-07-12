@@ -7,6 +7,7 @@ import Loading from '@components/loading/Spinner';
 
 import Time from './Time';
 import Prices from './Prices';
+import Strength from './Strength';
 import Rsi from './Rsi';
 import Volume from './Volume';
 
@@ -35,6 +36,8 @@ const Chart = () => {
           <Prices klines={klines} />
 
           <Rsi klines={klines} />
+
+          <Strength klines={klines}/>
 
           <Volume klines={klines} />
         </>  
