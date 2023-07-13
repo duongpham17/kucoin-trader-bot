@@ -152,12 +152,21 @@ const Open = () => {
               <Line />
 
               {el.strategy.includes("rsi") &&
-                <Flex>
-                  <Label2 name="Timer" value={!el.range_time ? "..." : `${el.range_time} min`} />
-                  <Label2 name="RSI Over bought"  value={el.range_over_bought_rsi} />
-                  <Label2 name="RSI Over Sold" value={el.range_over_sold_rsi} />
-                  <Label2 name="Period"   value={el.range_period_rsi} />
-                </Flex>
+                <>
+                  <Flex>
+                    <Label2 name="Timer" value={!el.range_time ? "..." : `${el.range_time} min`} />
+                    <Label2 name="RSI Over bought"  value={el.range_over_bought_rsi} />
+                    <Label2 name="RSI Over Sold" value={el.range_over_sold_rsi} />
+                    <Label2 name="Period"   value={el.range_period_rsi} />
+                  </Flex>
+                  <Flex>
+                    <Label2 name="" value="" />
+                    <Label2 name=""  value="" />
+                    <Label2 name="Stop Loss" value={el.range_stop_loss} />
+                    <Label2 name="Take Profit"   value={el.range_take_profit} />
+                  </Flex>
+                
+                </>
               }
 
               {!el.strategy.includes("rsi") && 
