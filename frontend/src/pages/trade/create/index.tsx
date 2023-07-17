@@ -151,7 +151,7 @@ const Create = () => {
                     />
                 }       
 
-               {/* TREND ***********/}
+               {/*********** TREND ***********/}
                 {values.strategy === "trend" &&
                     <Flex>
                         <Input 
@@ -228,15 +228,6 @@ const Create = () => {
                             selected={minutes_to_string(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
-                        <Input 
-                            label1="Range Long"
-                            error={errors.range_long}
-                            placeholder='Entry long range'
-                            type="number"
-                            name="range_long"
-                            value={values.range_long || ""}
-                            onChange={onChange}
-                        />
                     </>
                 }
                 {values.strategy === "rsi trend short only" && 
@@ -269,19 +260,10 @@ const Create = () => {
                             selected={minutes_to_string(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
-                        <Input 
-                            label1="Range Short"
-                            error={errors.range_short}
-                            placeholder='Entry short range'
-                            type="number"
-                            name="range_short"
-                            value={values.range_short || ""}
-                            onChange={onChange}
-                        />
                     </>
                 }
 
-                {/*********** RSI TREND ***********/}
+                {/*********** RSI COUNTER ***********/}
                 {values.strategy === "rsi counter" && 
                     <>
                         <Flex>
@@ -312,26 +294,6 @@ const Create = () => {
                             selected={minutes_to_string(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
-                        <Flex>
-                            <Input 
-                                label1="Range Long"
-                                error={errors.range_long}
-                                placeholder='Entry long range'
-                                type="number"
-                                name="range_long"
-                                value={values.range_long || ""}
-                                onChange={onChange}
-                            />
-                            <Input 
-                                label1="Range Short"
-                                error={errors.range_short}
-                                placeholder='Entry short range'
-                                type="number"
-                                name="range_short"
-                                value={values.range_short || ""}
-                                onChange={onChange}
-                            />
-                        </Flex>
                     </>
                 }
                 {values.strategy === "rsi counter long only" && 
@@ -364,15 +326,6 @@ const Create = () => {
                             selected={minutes_to_string(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
-                        <Input 
-                            label1="Range Long"
-                            error={errors.range_long}
-                            placeholder='Entry long range'
-                            type="number"
-                            name="range_long"
-                            value={values.range_long || ""}
-                            onChange={onChange}
-                        />
                     </>
                 }
                 {values.strategy === "rsi counter short only" && 
@@ -405,15 +358,6 @@ const Create = () => {
                             selected={minutes_to_string(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
-                        <Input 
-                            label1="Range Short"
-                            error={errors.range_short}
-                            placeholder='Entry short range'
-                            type="number"
-                            name="range_short"
-                            value={values.range_short || ""}
-                            onChange={onChange}
-                        />
                     </>
                 }
                 
