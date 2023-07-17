@@ -261,8 +261,8 @@ const Open = () => {
               {(el.strategy === "strength counter" || el.strategy === "strength trend") &&
                 <Flex>
                   <Label2 name="Period" value={minutes_to_string(el.range_period)} />
-                  <Label2 name="High Strength"   value={el.range_target_high.toFixed(5)} />
-                  <Label2 name="Low Strength"  value={el.range_target_low.toFixed(5)} />
+                  <Label2 name="High Strength"   value={el.range_target_high} />
+                  <Label2 name="Low Strength"  value={el.range_target_low} />
                 </Flex>
               }
               
