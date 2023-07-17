@@ -90,3 +90,11 @@ export const timeExpire = (future: Date, milli=0) => {
     const minutes = Math.round(time / 60 / 1000);
     return minutes
 };
+
+export const minutes_to_string = (minutes: number) => {
+    const time = 60 > minutes ? `${minutes} minute` :
+        minutes >= 60 && minutes < (60 * 24) ? `${minutes / 60} hour` :
+        minutes >= (60 * 24) && minutes < (60 * 24 * 7) ? `${minutes / 60 / 24} day` :
+        `${minutes / 60 / 24 / 7} week`
+    return time;
+}

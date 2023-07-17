@@ -9,7 +9,6 @@ export interface Validation {
     range_long: string | number,
     range_over_bought_rsi: string | number,
     range_over_sold_rsi: string | number,
-    range_period_rsi: string | number,
     //for exit targets
     range_stop_loss: string | number,
     range_take_profit: string | number,
@@ -53,9 +52,6 @@ const validations = (values: Validation) => {
     if(values.range_over_sold_rsi <= 0 || values.range_over_sold_rsi >= 50){
         errors.range_over_sold_rsi = "1 - 50";
     } 
-    if(0 >= values.range_period_rsi || values.range_period_rsi > 240){
-        errors.range_period_rsi = "1 - 240";
-    }
     return errors
 }
 

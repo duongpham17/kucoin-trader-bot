@@ -17,11 +17,13 @@ export interface IOrders extends Partial<Document> {
     profit_loss: number,
     leverage: number,
     //
+    range_period: number,
     range_short: number,
     range_long: number,
     range_over_bought_rsi: number,
     range_over_sold_rsi: number,
-    range_period_rsi: number,
+    range_target_high: number,
+    range_target_low: number
     range_stop_loss: number,
     range_take_profit: number,
     range_time: number,
@@ -75,6 +77,9 @@ const OrdersSchema = new Schema<IOrders>({
     strategy: {
         type: String,
     },
+    range_period: {
+        type: Number
+    },
     range_short: {
         type: Number
     },
@@ -86,9 +91,6 @@ const OrdersSchema = new Schema<IOrders>({
     },
     range_over_sold_rsi: {
         type: Number
-    },
-    range_period_rsi:{
-        type: Number,
     },
     range_stop_loss: {
         type: Number

@@ -41,7 +41,7 @@ const Strength = ({klines}:{klines: KLines}) => {
   const data = calc_strength();
 
   return (
-    <ResponsiveContainer width="100%" height={220}>
+    <ResponsiveContainer width="100%" height={180}>
       <AreaChart data={data} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
         <XAxis dataKey="time" tickFormatter={(time) => new Date(time).toISOString().split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
         <YAxis dataKey="strength" domain={["auto", "auto"]} fontSize={12}/>

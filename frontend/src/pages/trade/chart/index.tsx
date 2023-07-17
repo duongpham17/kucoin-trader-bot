@@ -5,9 +5,9 @@ import useQuery from '@hooks/useQuery';
 import useOpen from '@hooks/useOpen';
 
 import Loading from '@components/loading/Spinner';
-import Nav from '@components/navs/Style1';
+import Select from '@components/options/Style1';
 
-import Time from './Time';
+import Period from './Period';
 import Prices from './Prices';
 import Strength from './Strength';
 import Rsi from './Rsi';
@@ -33,21 +33,24 @@ const Chart = () => {
       document.title = `${query.getQueryValue("symbol")} ${latest_price}`;
     }, [latest_price, query]);
     
-
     return ( !klines ? <Loading size={50} center/> : 
-        <>
-          <Time />
+      <>
+        <Period />
 
-          <Prices klines={klines} />
+        <Prices klines={klines} />
 
-          <Nav pages={["rsi", "strength", "volume"]} onClick={onOpenLocal} selected={openLocal} />
+        <Select 
+          color="plain" 
+          items={["rsi", "strength", "volume"]} 
+          onClick={(e) => onOpenLocal(e.toString(), false)} selected={openLocal} 
+        />
 
-          {openLocal === "rsi" && <Rsi klines={klines} />}
+        {openLocal === "rsi" && <Rsi klines={klines} />}
 
-          {openLocal === "strength" && <Strength klines={klines}/>}
+        {openLocal === "strength" && <Strength klines={klines}/>}
 
-          {openLocal === "volume" && <Volume klines={klines} />}
-        </>  
+        {openLocal === "volume" && <Volume klines={klines} />}
+      </>  
     )
 }
 

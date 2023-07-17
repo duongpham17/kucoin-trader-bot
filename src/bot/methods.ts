@@ -13,8 +13,8 @@ export const exchanage_api = async ({trade}: {trade: ITrades}) => {
 };
 
 // [time, open, high, low, close, volume]
-export const calculateRSI = (dataSet: [number, number, number, number, number, number][], period=14): {rsi: number}[] => {
-    const closePrices = dataSet.map(data => data[4]);
+export const calculateRSI = (klines: [number, number, number, number, number, number][], period=14): {rsi: number}[] => {
+    const closePrices = klines.map(data => data[4]);
     const gains: number[] = [];
     const losses: number[] = [];
   
@@ -46,6 +46,27 @@ export const calculateRSI = (dataSet: [number, number, number, number, number, n
       rsi: 100 - (100 / (1 + rsValue)),
     }));
 };
+
+const calculateStrength = (klines: [number, number, number, number, number, number][]) => {
+    const str = [{time: 0, strength: 0}];
+    for(const i in klines){
+      const index = Number(i);
+      if(klines.length === index+1 ) break;
+      const [current, future] = [ klines[index][4], klines[index+1][4] ];
+      if(current < future) {
+        str.push({
+          time: klines[index][0],
+          strength: str[index].strength+1
+        })
+      } else {
+        str.push({
+          time: klines[index][0],
+          strength: str[index].strength-1
+        })
+      };
+    }
+    return str;
+  };
 
 export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrades, price: number, KucoinLive: any})  => {
     let [isLong, isShort] = [false, false];
@@ -86,9 +107,9 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
     };
 
     if(strategy === "rsi counter"){
-        const klines = await KucoinLive.getKlines(5);
+        const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150), trade.range_period_rsi);
+            const rsi = calculateRSI(klines.slice(150));
             const value = Number(rsi.slice(-1)[0].rsi);
             const long = value <= trade.range_over_sold_rsi;
             isLong = long;
@@ -98,9 +119,9 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
     };
 
     if(strategy === "rsi counter long only"){
-        const klines = await KucoinLive.getKlines(5);
+        const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150), trade.range_period_rsi);
+            const rsi = calculateRSI(klines.slice(150));
             const value = Number(rsi.slice(-1)[0].rsi);
             const long = value <= trade.range_over_sold_rsi;
             isLong = long;
@@ -108,9 +129,9 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
     };
 
     if(strategy === "rsi counter short only"){
-        const klines = await KucoinLive.getKlines(5);
+        const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150), trade.range_period_rsi);
+            const rsi = calculateRSI(klines.slice(150));
             const value = Number(rsi.slice(-1)[0].rsi);
             const short = value >= trade.range_over_bought_rsi;
             isShort = short;
@@ -118,9 +139,9 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
     };
 
     if(strategy === "rsi trend"){
-        const klines: Klines = await KucoinLive.getKlines(5);
+        const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150), trade.range_period_rsi);
+            const rsi = calculateRSI(klines.slice(150));
             const value = Number(rsi.slice(-1)[0].rsi);
             const long = value >= trade.range_over_bought_rsi;
             isLong = long;
@@ -130,9 +151,9 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
     };
 
     if(strategy === "rsi trend long only"){
-        const klines: Klines = await KucoinLive.getKlines(5);
+        const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150), trade.range_period_rsi);
+            const rsi = calculateRSI(klines.slice(150));
             const value = Number(rsi.slice(-1)[0].rsi);
             const long = value >= trade.range_over_bought_rsi;
             isLong = long;
@@ -140,27 +161,35 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
     };
 
     if(strategy === "rsi trend short only"){
-        const klines: Klines = await KucoinLive.getKlines(5);
+        const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150), trade.range_period_rsi);
+            const rsi = calculateRSI(klines.slice(150));
             const value = Number(rsi.slice(-1)[0].rsi);
             const short = value <= trade.range_over_sold_rsi;
             isShort = short;
         }
     };
 
-    if(strategy === "high low counter"){
-        const long = price <= open_short;
-        isLong = long;
-        const short = price >= open_long;
-        isShort = short;
+    if(strategy === "strength counter"){
+        const klines = await KucoinLive.getKlines(trade.range_period);
+        if(klines) {
+            const strength = calculateStrength(klines.slice(150));
+            const short = strength.slice(-1)[0].strength >= trade.range_target_high;
+            isShort = short
+            const long = strength.slice(-1)[0].strength <= trade.range_target_low;
+            isLong = long
+        }
     };
 
-    if (strategy === "high low trend"){
-        const long = price >= open_long;
-        isLong = long;
-        const short = price <= open_short;
-        isShort = short;
+    if(strategy === "strength trend"){
+        const klines = await KucoinLive.getKlines(trade.range_period);
+        if(klines) {
+            const strength = calculateStrength(klines.slice(150));
+            const long = strength.slice(-1)[0].strength >= trade.range_target_high;
+            isLong = long
+            const short = strength.slice(-1)[0].strength <= trade.range_target_low;
+            isShort = short
+        }
     };
 
     const isNoSide = !isLong && !isShort;

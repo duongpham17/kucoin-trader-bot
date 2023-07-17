@@ -1,10 +1,12 @@
+import { strategies, description } from '@data/strategies';
 import { useAppDispatch, useAppSelector } from '@redux/hooks/useRedux';
 import Trades from '@redux/actions/trades';
 import { ITrades } from '@redux/types/trades';
+import useQuery from '@hooks/useQuery';
 import useForm from '@hooks/useForm';
 import validation from './validation';
-import useQuery from '@hooks/useQuery';
-import { strategies, description } from '@data/strategies';
+
+import { minutes_to_string } from '@utils/functions';
 
 import Checkbox from '@components/inputs/Checkbox';
 import Input from '@components/inputs/Input';
@@ -32,7 +34,9 @@ const Create = () => {
         range_take_profit: 0,
         range_over_bought_rsi: 70,
         range_over_sold_rsi: 30,
-        range_period_rsi: 10,
+        range_target_high: 0,
+        range_target_low: 0,
+        range_period: 5,
         range_time: 0,
         createdAt: new Date(),
     };
@@ -42,6 +46,16 @@ const Create = () => {
     async function callback(){
         await dispatch(Trades.create({...values}));
         onClear();
+    };
+
+    const setPeriod = (value: string) => {
+        const period = 
+            value.toString().includes("hour") ? Number(value.toString().split(" ")[0]) * 60 :
+            value.toString().includes("day") ? Number(value.toString().split(" ")[0]) * 60 * 24 :
+            value.toString().includes("week") ? Number(value.toString().split(" ")[0]) * 60 * 24 * 7 :
+            value.toString().includes("month") ? Number(value.toString().split(" ")[0]) * 60 * 24 * 7 * 28 :
+            Number(value.toString().split(" ")[0]);
+        onSetValue({range_period: period});
     };
 
     return (
@@ -91,42 +105,8 @@ const Create = () => {
                     onChange={onChange}
                 />
 
-                {values.strategy!.includes("rsi") && 
-                    <>
-                        <Input 
-                            label1="Range OB RSI"
-                            label2={errors.range_over_bought_rsi}
-                            error={errors.range_over_bought_rsi}
-                            placeholder='default rsi will be 70'
-                            type="number"
-                            name="range_over_bought_rsi"
-                            value={values.range_over_bought_rsi}
-                            onChange={onChange}
-                        />
-                        <Input 
-                            label1="Range OS RSI"
-                            label2={errors.range_over_sold_rsi}
-                            error={errors.range_over_sold_rsi}
-                            placeholder='default rsi will be 30'
-                            type="number"
-                            name="range_over_sold_rsi"
-                            value={values.range_over_sold_rsi}
-                            onChange={onChange}
-                        />
-                        <Input 
-                            label1="RSI Period"
-                            label2={errors.range_period_rsi}
-                            error={errors.range_period_rsi}
-                            placeholder='default period 10'
-                            type="number"
-                            name="range_period_rsi"
-                            value={values.range_period_rsi}
-                            onChange={onChange}
-                        />
-                    </>
-                }
-
-                {(values.strategy!.includes("trend") || values.strategy!.includes("counter")) && 
+                {/*********** COUNTER ***********/}
+                {values.strategy === "counter" &&
                     <Flex>
                         <Input 
                             label1="Range Long"
@@ -148,7 +128,329 @@ const Create = () => {
                         />
                     </Flex>
                 }
+                {values.strategy === "counter long only" &&
+                    <Input 
+                        label1="Range Long"
+                        error={errors.range_long}
+                        placeholder='Entry long range'
+                        type="number"
+                        name="range_long"
+                        value={values.range_long || ""}
+                        onChange={onChange}
+                    />
+                }
+                {values.strategy === "counter short only" &&
+                    <Input 
+                        label1="Range Short"
+                        error={errors.range_short}
+                        placeholder='Entry short range'
+                        type="number"
+                        name="range_short"
+                        value={values.range_short || ""}
+                        onChange={onChange}
+                    />
+                }       
 
+               {/* TREND ***********/}
+                {values.strategy === "trend" &&
+                    <Flex>
+                        <Input 
+                            label1="Range Long"
+                            error={errors.range_long}
+                            placeholder='Entry long range'
+                            type="number"
+                            name="range_long"
+                            value={values.range_long || ""}
+                            onChange={onChange}
+                        />
+                        <Input 
+                            label1="Range Short"
+                            error={errors.range_short}
+                            placeholder='Entry short range'
+                            type="number"
+                            name="range_short"
+                            value={values.range_short || ""}
+                            onChange={onChange}
+                        />
+                    </Flex>
+                }
+                {values.strategy === "trend long only" &&
+                    <Input 
+                        label1="Range Long"
+                        error={errors.range_long}
+                        placeholder='Entry long range'
+                        type="number"
+                        name="range_long"
+                        value={values.range_long || ""}
+                        onChange={onChange}
+                    />
+                }
+                {values.strategy === "trend short only" &&
+                    <Input 
+                        label1="Range Short"
+                        error={errors.range_short}
+                        placeholder='Entry short range'
+                        type="number"
+                        name="range_short"
+                        value={values.range_short || ""}
+                        onChange={onChange}
+                    />
+                }       
+                
+                {/*********** RSI TREND ***********/}
+                {values.strategy === "rsi trend long only" && 
+                    <>
+                        <Flex>
+                            <Input 
+                                label1="Over Bought RSI"
+                                label2={errors.range_over_bought_rsi}
+                                error={errors.range_over_bought_rsi}
+                                placeholder='default rsi will be 70'
+                                type="number"
+                                name="range_over_bought_rsi"
+                                value={values.range_over_bought_rsi}
+                                onChange={onChange}
+                            />
+                            <Input 
+                                label1="Over Sold RSI"
+                                label2={errors.range_over_sold_rsi}
+                                error={errors.range_over_sold_rsi}
+                                placeholder='default rsi will be 30'
+                                type="number"
+                                name="range_over_sold_rsi"
+                                value={values.range_over_sold_rsi}
+                                onChange={onChange}
+                            />
+                        </Flex>
+                        <Select 
+                            label1="Period"
+                            items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
+                            selected={minutes_to_string(Number(values.range_period))} 
+                            onClick={setPeriod} 
+                        /> 
+                        <Input 
+                            label1="Range Long"
+                            error={errors.range_long}
+                            placeholder='Entry long range'
+                            type="number"
+                            name="range_long"
+                            value={values.range_long || ""}
+                            onChange={onChange}
+                        />
+                    </>
+                }
+                {values.strategy === "rsi trend short only" && 
+                    <>
+                        <Flex>
+                            <Input 
+                                label1="Over Bought RSI"
+                                label2={errors.range_over_bought_rsi}
+                                error={errors.range_over_bought_rsi}
+                                placeholder='default rsi will be 70'
+                                type="number"
+                                name="range_over_bought_rsi"
+                                value={values.range_over_bought_rsi}
+                                onChange={onChange}
+                            />
+                            <Input 
+                                label1="Over Sold RSI"
+                                label2={errors.range_over_sold_rsi}
+                                error={errors.range_over_sold_rsi}
+                                placeholder='default rsi will be 30'
+                                type="number"
+                                name="range_over_sold_rsi"
+                                value={values.range_over_sold_rsi}
+                                onChange={onChange}
+                            />
+                        </Flex>
+                        <Select 
+                            label1="Period"
+                            items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
+                            selected={minutes_to_string(Number(values.range_period))} 
+                            onClick={setPeriod} 
+                        /> 
+                        <Input 
+                            label1="Range Short"
+                            error={errors.range_short}
+                            placeholder='Entry short range'
+                            type="number"
+                            name="range_short"
+                            value={values.range_short || ""}
+                            onChange={onChange}
+                        />
+                    </>
+                }
+
+                {/*********** RSI TREND ***********/}
+                {values.strategy === "rsi counter" && 
+                    <>
+                        <Flex>
+                            <Input 
+                                label1="Over Bought RSI"
+                                label2={errors.range_over_bought_rsi}
+                                error={errors.range_over_bought_rsi}
+                                placeholder='default rsi will be 70'
+                                type="number"
+                                name="range_over_bought_rsi"
+                                value={values.range_over_bought_rsi}
+                                onChange={onChange}
+                            />
+                            <Input 
+                                label1="Over Sold RSI"
+                                label2={errors.range_over_sold_rsi}
+                                error={errors.range_over_sold_rsi}
+                                placeholder='default rsi will be 30'
+                                type="number"
+                                name="range_over_sold_rsi"
+                                value={values.range_over_sold_rsi}
+                                onChange={onChange}
+                            />
+                        </Flex>
+                        <Select 
+                            label1="Period"
+                            items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
+                            selected={minutes_to_string(Number(values.range_period))} 
+                            onClick={setPeriod} 
+                        /> 
+                        <Flex>
+                            <Input 
+                                label1="Range Long"
+                                error={errors.range_long}
+                                placeholder='Entry long range'
+                                type="number"
+                                name="range_long"
+                                value={values.range_long || ""}
+                                onChange={onChange}
+                            />
+                            <Input 
+                                label1="Range Short"
+                                error={errors.range_short}
+                                placeholder='Entry short range'
+                                type="number"
+                                name="range_short"
+                                value={values.range_short || ""}
+                                onChange={onChange}
+                            />
+                        </Flex>
+                    </>
+                }
+                {values.strategy === "rsi counter long only" && 
+                    <>
+                        <Flex>
+                            <Input 
+                                label1="Over Bought RSI"
+                                label2={errors.range_over_bought_rsi}
+                                error={errors.range_over_bought_rsi}
+                                placeholder='default rsi will be 70'
+                                type="number"
+                                name="range_over_bought_rsi"
+                                value={values.range_over_bought_rsi}
+                                onChange={onChange}
+                            />
+                            <Input 
+                                label1="Over Sold RSI"
+                                label2={errors.range_over_sold_rsi}
+                                error={errors.range_over_sold_rsi}
+                                placeholder='default rsi will be 30'
+                                type="number"
+                                name="range_over_sold_rsi"
+                                value={values.range_over_sold_rsi}
+                                onChange={onChange}
+                            />
+                        </Flex>
+                        <Select 
+                            label1="Period"
+                            items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
+                            selected={minutes_to_string(Number(values.range_period))} 
+                            onClick={setPeriod} 
+                        /> 
+                        <Input 
+                            label1="Range Long"
+                            error={errors.range_long}
+                            placeholder='Entry long range'
+                            type="number"
+                            name="range_long"
+                            value={values.range_long || ""}
+                            onChange={onChange}
+                        />
+                    </>
+                }
+                {values.strategy === "rsi counter short only" && 
+                    <>
+                        <Flex>
+                            <Input 
+                                label1="Over Bought RSI"
+                                label2={errors.range_over_bought_rsi}
+                                error={errors.range_over_bought_rsi}
+                                placeholder='default rsi will be 70'
+                                type="number"
+                                name="range_over_bought_rsi"
+                                value={values.range_over_bought_rsi}
+                                onChange={onChange}
+                            />
+                            <Input 
+                                label1="Over Sold RSI"
+                                label2={errors.range_over_sold_rsi}
+                                error={errors.range_over_sold_rsi}
+                                placeholder='default rsi will be 30'
+                                type="number"
+                                name="range_over_sold_rsi"
+                                value={values.range_over_sold_rsi}
+                                onChange={onChange}
+                            />
+                        </Flex>
+                        <Select 
+                            label1="Period"
+                            items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
+                            selected={minutes_to_string(Number(values.range_period))} 
+                            onClick={setPeriod} 
+                        /> 
+                        <Input 
+                            label1="Range Short"
+                            error={errors.range_short}
+                            placeholder='Entry short range'
+                            type="number"
+                            name="range_short"
+                            value={values.range_short || ""}
+                            onChange={onChange}
+                        />
+                    </>
+                }
+                
+                {/*********** STRENGTH ***********/}
+                {(values.strategy === "strength counter" || values.strategy === "strength trend") && 
+                    <>
+                        <Flex>
+                            <Input 
+                                label1="High strength"
+                                label2={errors.range_target_high}
+                                error={errors.range_target_high}
+                                type="number"
+                                name="range_target_high"
+                                value={values.range_target_high}
+                                onChange={onChange}
+                            />
+                            <Input 
+                                label1="Low strength"
+                                label2={errors.range_target_low}
+                                error={errors.range_target_low}
+                                type="number"
+                                name="range_target_low"
+                                value={values.range_target_low}
+                                onChange={onChange}
+                            />
+                        </Flex>
+                        <Select 
+                            label1="Period"
+                            items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
+                            selected={minutes_to_string(Number(values.range_period))} 
+                            onClick={setPeriod} 
+                        /> 
+                    </>
+                }
+
+
+                {/*********** CONSTANT ***********/}
                 <Flex>
                     <Input 
                         label1="Range Stop Loss"

@@ -16,14 +16,18 @@ export interface IOrders {
     profit_loss: number,
     leverage: number,
     strategy: string,
+    //
     range_long: number,
     range_short: number,
     range_over_bought_rsi: number,
     range_over_sold_rsi: number,
-    range_period_rsi: number,
+    range_period: number,
+    range_target_high: number,
+    range_target_low: number
+    range_time: number,
     range_stop_loss: number,
     range_take_profit: number,
-    range_time: number,
+    //
     closedAt: Date,
     createdAt: Date,
 };

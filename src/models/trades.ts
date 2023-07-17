@@ -16,11 +16,13 @@ export interface ITrades extends Document {
     position_size: number,
     side: "buy" | "sell",
     //for entry targets
+    range_period: number,
     range_short: number,
     range_long: number,
     range_over_bought_rsi: number,
     range_over_sold_rsi: number,
-    range_period_rsi: number,
+    range_target_high: number,
+    range_target_low: number
     range_time: number,
     //for exit targets
     range_stop_loss: number,
@@ -80,6 +82,9 @@ const TradesSchema = new Schema<ITrades>({
         type: Number
     },
     //for entry targets
+    range_period: {
+        type: Number
+    },
     range_short: {
         type: Number,
         default: 0
@@ -96,9 +101,11 @@ const TradesSchema = new Schema<ITrades>({
         type: Number,
         default: 30
     },
-    range_period_rsi: {
-        type: Number,
-        default: 10
+    range_target_high: {
+        type: Number
+    },
+    range_target_low: {
+        type: Number
     },
     range_time:{
         type: Number,

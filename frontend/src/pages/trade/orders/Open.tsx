@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@redux/hooks/useRedux';
 import { ITrades } from '@redux/types/trades';
 import Trades from '@redux/actions/trades';
-import { timeExpire } from '@utils/functions';
+import { timeExpire, minutes_to_string } from '@utils/functions';
 import { AiFillDelete, AiOutlinePause, AiOutlineClose } from 'react-icons/ai';
 
 import Spinner from '@components/loading/Spinner';
@@ -143,48 +143,129 @@ const Open = () => {
             </div>
           :
             <div>
+
               <Flex>
                 <Label2 name="Position Size" value={el.position_size}/>
                 <Label2 name="Leverage" value={`${el.leverage}x`}/>
                 <Label2 name="Estimated Cost" value={`$${cost_risk(el.position_size, el.open_long, el.leverage)}`}/>
-                <Label2 name=""  value=""/>
               </Flex>
+
               <Line />
 
-              {el.strategy.includes("rsi") &&
+              <Flex>
+                <Label2 name="Timer" value={!el.range_time ? "..." : `${el.range_time} min`} /> 
+                <Label2 name="Range Take Profit" value={el.range_take_profit.toFixed(5)} />
+                <Label2 name="Range Stop Loss"   value={el.range_stop_loss.toFixed(5)} />
+              </Flex>
+
+              {el.strategy === "counter" && 
                 <>
                   <Flex>
-                    <Label2 name="Timer" value={!el.range_time ? "..." : `${el.range_time} min`} />
-                    <Label2 name="RSI Over bought"  value={el.range_over_bought_rsi} />
-                    <Label2 name="RSI Over Sold" value={el.range_over_sold_rsi} />
-                    <Label2 name="Period"   value={el.range_period_rsi} />
-                  </Flex>
-                  <Flex>
                     <Label2 name="" value="" />
-                    <Label2 name=""  value="" />
-                    <Label2 name="Stop Loss" value={el.range_stop_loss} />
-                    <Label2 name="Take Profit"   value={el.range_take_profit} />
+                    <Label2 name="Open Long"   value={el.open_long.toFixed(5)} />
+                    <Label2 name="Range Long"  value={el.range_long.toFixed(5)} />
                   </Flex>
-                
+                  <Flex> 
+                    <Label2 name="" value="" />
+                    <Label2 name="Open Short"  value={el.open_short.toFixed(5)} />
+                    <Label2 name="Range Short" value={el.range_short.toFixed(5)} />
+                  </Flex>
                 </>
               }
-
-              {!el.strategy.includes("rsi") && 
-              <>
+              {el.strategy === "counter long only" && 
                 <Flex> 
-                  <Label2 name="Timer" value={!el.range_time ? "..." : `${el.range_time} min`} />
-                  <Label2 name="Open Long"   value={el.open_long.toFixed(5)} />
-                  <Label2 name="Range Long"  value={el.range_long.toFixed(5)} />
-                  <Label2 name="Range Take Profit" value={el.range_take_profit.toFixed(5)} />
+                  <Label2 name="Open Long"  value={el.open_long.toFixed(5)} />
+                  <Label2 name="Range Long" value={el.range_long.toFixed(5)} />
                 </Flex>
+              }
+              {el.strategy === "counter short only" && 
                 <Flex> 
-                  <Label2 name=""  value="" />
                   <Label2 name="Open Short"  value={el.open_short.toFixed(5)} />
                   <Label2 name="Range Short" value={el.range_short.toFixed(5)} />
-                  <Label2 name="Range Stop Loss"   value={el.range_stop_loss.toFixed(5)} />
                 </Flex>
-              </>
-            }
+              }
+
+              {el.strategy === "trend" && 
+                <>
+                  <Flex>
+                    <Label2 name="" value="" />
+                    <Label2 name="Open Long"   value={el.open_long.toFixed(5)} />
+                    <Label2 name="Range Long"  value={el.range_long.toFixed(5)} />
+                  </Flex>
+                  <Flex> 
+                    <Label2 name="" value="" />
+                    <Label2 name="Open Short"  value={el.open_short.toFixed(5)} />
+                    <Label2 name="Range Short" value={el.range_short.toFixed(5)} />
+                  </Flex>
+                </>
+              }
+              {el.strategy === "trend long only" && 
+                <Flex> 
+                  <Label2 name="" value="" />
+                  <Label2 name="Open Long"  value={el.open_long.toFixed(5)} />
+                  <Label2 name="Range Long" value={el.range_long.toFixed(5)} />
+                </Flex>
+              }
+              {el.strategy === "trend short only" && 
+                <Flex> 
+                  <Label2 name="" value="" />
+                  <Label2 name="Open Short"  value={el.open_short.toFixed(5)} />
+                  <Label2 name="Range Short" value={el.range_short.toFixed(5)} />
+                </Flex>
+              }
+
+              {el.strategy === "rsi counter" &&
+                <Flex>
+                  <Label2 name="Period"  value={minutes_to_string(el.range_period)} />     
+                  <Label2 name="Over Bought"  value={el.range_over_bought_rsi} />
+                  <Label2 name="Over Sold" value={el.range_over_sold_rsi} />
+                </Flex>
+              }   
+              {el.strategy === "rsi counter long only" &&
+                <Flex>
+                   <Label2 name="" value="" />
+                  <Label2 name="Period"  value={minutes_to_string(el.range_period)} />
+                  <Label2 name="Over Bought"  value={el.range_over_bought_rsi} />
+                </Flex>
+              }   
+              {el.strategy === "rsi counter short only" &&
+                <Flex>
+                  <Label2 name="" value="" />
+                  <Label2 name="Period"  value={minutes_to_string(el.range_period)} />
+                  <Label2 name="Over Sold" value={el.range_over_sold_rsi} />
+                </Flex>
+              }   
+
+              {el.strategy === "rsi trend" &&
+                <Flex>
+                  <Label2 name="Period"  value={minutes_to_string(el.range_period)} />
+                  <Label2 name="Over Bought"  value={el.range_over_bought_rsi} />
+                  <Label2 name="Over Sold" value={el.range_over_sold_rsi} />
+                </Flex>
+              }   
+              {el.strategy === "rsi trend long only" &&
+                <Flex>
+                  <Label2 name="" value="" />
+                  <Label2 name="Period"  value={minutes_to_string(el.range_period)} />
+                  <Label2 name="Over Bought"  value={el.range_over_bought_rsi} />
+                </Flex>
+              }   
+              {el.strategy === "rsi trend short only" &&
+                <Flex>
+                  <Label2 name="" value="" />
+                  <Label2 name="Period"  value={minutes_to_string(el.range_period)} />
+                  <Label2 name="Over Sold" value={el.range_over_sold_rsi} />
+                </Flex>
+              }   
+
+              {(el.strategy === "strength counter" || el.strategy === "strength trend") &&
+                <Flex>
+                  <Label2 name="Period" value={minutes_to_string(el.range_period)} />
+                  <Label2 name="High Strength"   value={el.range_target_high.toFixed(5)} />
+                  <Label2 name="Low Strength"  value={el.range_target_low.toFixed(5)} />
+                </Flex>
+              }
+              
             </div>
           }
 

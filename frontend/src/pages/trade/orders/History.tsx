@@ -111,21 +111,6 @@ const History = () => {
               <Label2 name="" value="" />
               <Label2 name="" value="" />
             </Flex>
-            <Line/>
-            {el.strategy.includes("rsi") && 
-            <Flex>
-              <Label2 name="RSI Over Bought" value={el.range_over_bought_rsi}/>
-              <Label2 name="RSI Over Sold" value={el.range_over_sold_rsi}/>
-              <Label2 name="Range Stop Loss" value={el.range_stop_loss} />
-              <Label2 name="Range Take Profit" value={el.range_take_profit} />
-            </Flex>}
-            {!el.strategy.includes("rsi") && 
-            <Flex>
-              <Label2 name="Range Long" value={el.range_long}/>
-              <Label2 name="Range Short" value={el.range_short}/>
-              <Label2 name="Range Stop Loss" value={el.range_stop_loss} />
-              <Label2 name="Range Take Profit" value={el.range_take_profit} />
-            </Flex>}
           </Container>    
         }
       </Pagination>

@@ -3,8 +3,7 @@ export type TradingStrategy =
     "trend" | "trend long only" | "trend short only" |
     "rsi counter" | "rsi counter long only" | "rsi counter short only" | 
     "rsi trend" | "rsi trend long only" | "rsi trend short only" |
-    "high low counter" |
-    "high low trend"
+    "strength trend" | "strength counter";
 
 export type Side = 
     "buy" | "sell" | "both";
@@ -101,17 +100,17 @@ export const strategies: Strategies[] = [
         `
     },
     {
-        name: "high low counter",
+        name: "strength counter",
         side: "both",
         description: `
-            Highest and lowest price in the 5 minute time range, highest short, lowest long
+            Measures price trend movements, high short, low long
         `
     },
     {
-        name: "high low trend",
+        name: "strength trend",
         side: "both",
         description: `
-            Highest and lowest price in the 5 minute time range, highest long, lowest short
+            Measures price trend movements, high long, low short
         `
     },
 ];

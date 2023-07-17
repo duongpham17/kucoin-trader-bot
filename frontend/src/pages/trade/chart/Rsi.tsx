@@ -56,7 +56,7 @@ const Rsi = ({klines}: {klines: KLines}) => {
   const rsi = calculateRSI(klines, 14);
 
   return (
-    <ResponsiveContainer width="100%" height={120}>
+    <ResponsiveContainer width="100%" height={180}>
       <AreaChart data={rsi} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
         <XAxis dataKey="time" tickFormatter={(time) => time.split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
         <YAxis dataKey="rsi" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
