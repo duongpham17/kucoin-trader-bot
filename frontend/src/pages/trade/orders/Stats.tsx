@@ -12,8 +12,10 @@ import Label3 from '@components/labels/Style3';
 import Line from '@components/line/Style1';
 import Pagination from '@components/pagination/Style1';
 import Button from '@components/buttons/Button';
+import Empty from '@components/loading/Empty';
 
 import {AiFillDelete} from 'react-icons/ai';
+
 
 const OrdersContainer = ({orders}: {orders: IOrders[]}) => {
 
@@ -91,6 +93,10 @@ const StatsContainer = () => {
   const {trades, stats} = useAppSelector(state => state.trades);
 
   const {loading, onLoading} = useLoading();
+
+  if(!trades || !trades.length) {
+    return (<Empty />)
+  }
 
   return (
     <div>

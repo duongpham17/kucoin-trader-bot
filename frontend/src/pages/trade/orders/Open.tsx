@@ -4,6 +4,8 @@ import Trades from '@redux/actions/trades';
 import { timeExpire, minutes_to_string } from '@utils/functions';
 import { AiFillDelete, AiOutlinePause, AiOutlineClose } from 'react-icons/ai';
 
+import useOpen from '@hooks/useOpen';
+
 import Spinner from '@components/loading/Spinner';
 import Label1 from '@components/labels/Style1';
 import Label2 from '@components/labels/Style2';
@@ -14,7 +16,7 @@ import Button from '@components/buttons/Button';
 import Flex from '@components/flex/Style1';
 import Line from '@components/line/Style1';
 import Container from '@components/containers/Style1';
-import useOpen from '@hooks/useOpen';
+import Empty from '@components/loading/Empty';
 
 const Open = () => {
   
@@ -23,6 +25,10 @@ const Open = () => {
   const {openValue, onOpenValue} = useOpen({initialState: ""});
 
   const {trades, latest_price} = useAppSelector(state => state.trades);
+
+  if(!trades || !trades.length) {
+    return (<Empty />)
+  }
 
   const onStopTrading = (trade:ITrades) => {
     dispatch(Trades.update({...trade, action: "break"}));

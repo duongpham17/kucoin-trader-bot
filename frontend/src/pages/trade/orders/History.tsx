@@ -20,6 +20,7 @@ import Flex from '@components/flex/Style1';
 import Select from '@components/options/Style1';
 import Square from '@components/buttons/Button';
 import Message from '@components/hover/Message';
+import Empty from '@components/loading/Empty';
 
 const History = () => {
 
@@ -65,6 +66,10 @@ const History = () => {
       lose: data.lose
     }
   }, [orders]);
+
+  if(!orders || !orders.length) {
+    return (<Empty />)
+  }
 
   return ( orders === null ? <Loading center/> :
     <>
