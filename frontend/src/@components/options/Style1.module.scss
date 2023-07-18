@@ -29,6 +29,21 @@
         position: absolute;
         width: calc(100% - -2px);
         left: -1px;
+        max-height: 200px;
+        overflow-y: auto;
+        scrollbar-color: red yellow;
+        
+        &::-webkit-scrollbar{
+            width:8px;
+                background-color:var(--clr-background);
+            }
+            
+        &::-webkit-scrollbar-thumb{
+          background:var(--clr-main);
+          border-radius:5px;
+        }
+      
+
         &:hover{
             border-color: var(--clr-main);
         }
