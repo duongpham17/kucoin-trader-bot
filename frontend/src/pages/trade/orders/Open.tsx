@@ -66,7 +66,7 @@ const Open = () => {
 
           <Flex>
             <div>
-              <Bullets text={[el.market_id, el.live?"LIVE":"TEST", el.strategy.toUpperCase()]}/>
+              <Bullets text={[el._id.slice(-6).toUpperCase(), el.market_id, el.live?"LIVE":"TEST", el.strategy.toUpperCase()]}/>
               <Label1 name={el.createdAt.toLocaleString()} color="light" size="0.7rem"/>
             </div>
             <Flex>

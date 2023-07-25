@@ -66,10 +66,11 @@ const OrdersContainer = ({orders}: {orders: IOrders[]}) => {
         <Label2 name="Loss" value={PNL.loss.toFixed(2)} color="red" />
       </Flex>
 
+      <Line/>
+
       <Pagination data={orders} show={5}>
         {(el) => 
-          <div key={el._id}>
-            <Line/>
+          <Container key={el._id} background="light">
             <Flex> 
               <Label2 name="PNL" value={el.profit_loss.toFixed(2)} color={el.profit_loss > 0 ?"green":"red"}/>
               <Label2 name="SIDE" value={el.side.toUpperCase()}/>
@@ -79,7 +80,7 @@ const OrdersContainer = ({orders}: {orders: IOrders[]}) => {
             <Flex>
               <Label2 name="" value={`${el.closedAt} (${timeDifference(el.closedAt, el.createdAt)})`} size="0.8rem" color="light"/>
             </Flex>
-          </div>  
+          </Container>  
         }
       </Pagination>
     </div>
@@ -104,7 +105,7 @@ const StatsContainer = () => {
         <Container background='dark' key={el._id}>
 
           <Flex>
-            <Bullets text={[el.market_id, el.live?"LIVE":"TEST", el.strategy.toUpperCase()]} />
+            <Bullets text={[el._id.slice(-6).toUpperCase(), el.market_id, el.live?"LIVE":"TEST"]} />
             <Flex>
               <Button 
                 label1={<AiFillDelete/>} 
@@ -122,7 +123,7 @@ const StatsContainer = () => {
           </Flex>
 
           <Flex>
-            <Label3 name="" value={`ID: ${el._id}`} color="light" size="0.8rem" />
+            <Label3 name="" value={el.strategy.toUpperCase()} color="light" size="0.8rem" />
           </Flex>
           
           {stats && stats.find(s => s.trade._id === el._id) &&
