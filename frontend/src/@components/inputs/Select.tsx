@@ -41,7 +41,7 @@ const Select = ({label1, label2, color, error, items, selected, onClick}: Props)
                     <ul>
                         { items.map((el, index) => 
                             <li className={styles.item} key={(el+index)}>
-                                <button className={selected ? styles.selected : ""} onClick={() => onClick(el)}>
+                                <button className={selected === el ? styles.selected : ""} onClick={() => onClick(el)}>
                                     <span>{el}</span>
                                     <span className={styles.arrow}>&#8592;</span>
                                 </button>

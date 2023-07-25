@@ -66,7 +66,17 @@ const calculateStrength = (klines: [number, number, number, number, number, numb
       };
     }
     return str;
-  };
+};
+
+const calculateVelcoity = (klines: [number, number, number, number, number, number][]) => {
+    const data = klines.slice(-1)[0];
+    const velocity = ((data[2] - data[3]) / data[1]) * 100;
+    const direction = data[1] > data[4];
+    return {
+        velocity,
+        direction : direction ? "up" : "down"
+    };
+};
 
 export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrades, price: number, KucoinLive: any})  => {
     let [isLong, isShort] = [false, false];
@@ -189,6 +199,34 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
             isLong = long
             const short = strength.slice(-1)[0].strength <= trade.range_target_low;
             isShort = short
+        }
+    };
+
+    if(strategy === "velocity counter"){
+        const klines = await KucoinLive.getKlines(trade.range_period);
+        if(klines){
+            const {velocity, direction} = calculateVelcoity(klines);
+            if(direction === "up"){
+                const short = velocity >= trade.range_target_high;
+                isShort = short;
+            } else {
+                const long = velocity >= trade.range_target_low;
+                isLong = long;
+            }
+        }
+    };
+
+    if(strategy === "velocity trend"){
+        const klines = await KucoinLive.getKlines(trade.range_period);
+        if(klines){
+            const {velocity, direction} = calculateVelcoity(klines);
+            if(direction === "up"){
+                const long = velocity >= trade.range_target_high;
+                isLong = long;
+            } else {
+                const short = velocity >= trade.range_target_low;
+                isShort = short;
+            }
         }
     };
 

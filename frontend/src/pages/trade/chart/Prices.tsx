@@ -8,11 +8,11 @@ const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
       return (
         <div>
           <p>{data.time}</p>
-          <Flex><span>O</span> <span>{data.open}</span></Flex>
-          <Flex><span>H</span> <span>{data.high}</span></Flex>
-          <Flex><span>L</span> <span>{data.low}</span></Flex>
-          <Flex><span>C</span> <span>{data.close}</span></Flex>
-          <Flex><span>V</span> <span>{data.volume}</span></Flex>
+          <Flex><span>OPEN</span> <span>{data.open}</span></Flex>
+          <Flex><span>HIGHEST</span> <span>{data.high}</span></Flex>
+          <Flex><span>LOWEST</span> <span>{data.low}</span></Flex>
+          <Flex><span>CLOSE</span> <span>{data.close}</span></Flex>
+          <Flex><span>VOLUME</span> <span>{data.volume}</span></Flex>
         </div>
       );
     }

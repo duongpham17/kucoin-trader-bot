@@ -12,6 +12,7 @@ import Prices from './Prices';
 import Strength from './Strength';
 import Rsi from './Rsi';
 import Volume from './Volume';
+import Velocity from './velocity';
 
 const Chart = () => {
 
@@ -35,13 +36,14 @@ const Chart = () => {
     
     return ( !klines ? <Loading size={50} center/> : 
       <>
+      
         <Period />
 
         <Prices klines={klines} />
 
         <Select 
           color="plain" 
-          items={["rsi", "strength", "volume"]} 
+          items={["rsi", "strength", "volume", "velocity"]} 
           onClick={(e) => onOpenLocal(e.toString(), false)} selected={openLocal} 
         />
 
@@ -50,6 +52,9 @@ const Chart = () => {
         {openLocal === "strength" && <Strength klines={klines}/>}
 
         {openLocal === "volume" && <Volume klines={klines} />}
+
+        {openLocal === "velocity" && <Velocity klines={klines} />}
+
       </>  
     )
 }

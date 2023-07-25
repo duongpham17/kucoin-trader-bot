@@ -164,6 +164,7 @@ const Open = () => {
                 <Label2 name="Range Stop Loss"   value={el.range_stop_loss.toFixed(5)} />
               </Flex>
 
+              {/*********** COUNTER ***********/}
               {el.strategy === "counter" && 
                 <>
                   <Flex>
@@ -191,6 +192,7 @@ const Open = () => {
                 </Flex>
               }
 
+              {/*********** TREND ***********/}
               {el.strategy === "trend" && 
                 <>
                   <Flex>
@@ -219,51 +221,53 @@ const Open = () => {
                   <Label2 name="Range Short" value={el.range_short.toFixed(5)} />
                 </Flex>
               }
-
+              
+              {/*********** RSI COUNTER ***********/}
               {el.strategy === "rsi counter" &&
                 <Flex>
                   <Label2 name="Period"  value={minutes_to_string(el.range_period)} />     
-                  <Label2 name="Over Bought"  value={el.range_over_bought_rsi} />
-                  <Label2 name="Over Sold" value={el.range_over_sold_rsi} />
+                  <Label2 name="Over Bought Rsi"  value={el.range_over_bought_rsi} />
+                  <Label2 name="Over Sold Rsi" value={el.range_over_sold_rsi} />
                 </Flex>
               }   
               {el.strategy === "rsi counter long only" &&
                 <Flex>
                    <Label2 name="" value="" />
                   <Label2 name="Period"  value={minutes_to_string(el.range_period)} />
-                  <Label2 name="Over Bought"  value={el.range_over_bought_rsi} />
+                  <Label2 name="Over Bought Rsi"  value={el.range_over_bought_rsi} />
                 </Flex>
               }   
               {el.strategy === "rsi counter short only" &&
                 <Flex>
                   <Label2 name="" value="" />
                   <Label2 name="Period"  value={minutes_to_string(el.range_period)} />
-                  <Label2 name="Over Sold" value={el.range_over_sold_rsi} />
+                  <Label2 name="Over Sold Rsi" value={el.range_over_sold_rsi} />
                 </Flex>
               }   
-
+              {/*********** RSI TREND ***********/}
               {el.strategy === "rsi trend" &&
                 <Flex>
                   <Label2 name="Period"  value={minutes_to_string(el.range_period)} />
-                  <Label2 name="Over Bought"  value={el.range_over_bought_rsi} />
-                  <Label2 name="Over Sold" value={el.range_over_sold_rsi} />
+                  <Label2 name="Over Bought Rsi"  value={el.range_over_bought_rsi} />
+                  <Label2 name="Over Sold Rsi" value={el.range_over_sold_rsi} />
                 </Flex>
               }   
               {el.strategy === "rsi trend long only" &&
                 <Flex>
                   <Label2 name="" value="" />
                   <Label2 name="Period"  value={minutes_to_string(el.range_period)} />
-                  <Label2 name="Over Bought"  value={el.range_over_bought_rsi} />
+                  <Label2 name="Over Bought Rsi"  value={el.range_over_bought_rsi} />
                 </Flex>
               }   
               {el.strategy === "rsi trend short only" &&
                 <Flex>
                   <Label2 name="" value="" />
                   <Label2 name="Period"  value={minutes_to_string(el.range_period)} />
-                  <Label2 name="Over Sold" value={el.range_over_sold_rsi} />
+                  <Label2 name="Over Sold Rsi" value={el.range_over_sold_rsi} />
                 </Flex>
               }   
 
+              {/*********** STRENGTH ***********/}
               {(el.strategy === "strength counter" || el.strategy === "strength trend") &&
                 <Flex>
                   <Label2 name="Period" value={minutes_to_string(el.range_period)} />
@@ -271,7 +275,15 @@ const Open = () => {
                   <Label2 name="Low Strength"  value={el.range_target_low} />
                 </Flex>
               }
-              
+
+              {/*********** VELOCITY ***********/}
+              {(el.strategy === "velocity counter" || el.strategy === "velocity trend") &&
+                <Flex>
+                  <Label2 name="Period" value={minutes_to_string(el.range_period)} />
+                  <Label2 name="Pump Range"  value={el.range_target_high} />
+                  <Label2 name="Dump Range"  value={el.range_target_low} />
+                </Flex>
+              }
             </div>
           }
 

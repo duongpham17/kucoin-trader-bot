@@ -1,7 +1,8 @@
+import {TradingStrategy} from '@data/strategies'
 const check = (key: any, values: any) => key in values;
 
 export interface Validation {
-    strategy: string,
+    strategy: TradingStrategy | "*",
     leverage: string | number,
     position_size: string | number,
     //for entry targets
@@ -9,6 +10,8 @@ export interface Validation {
     range_long: string | number,
     range_over_bought_rsi: string | number,
     range_over_sold_rsi: string | number,
+    range_target_low: string | number,
+    range_target_high: string | number,
     //for exit targets
     range_stop_loss: string | number,
     range_take_profit: string | number,
@@ -46,12 +49,28 @@ const validations = (values: Validation) => {
             errors.range_take_profit = "*";
         }
     } 
-    if(values.range_over_bought_rsi > 100 || values.range_over_bought_rsi <= 50){
-        errors.range_over_bought_rsi = "50 - 100";
-    } 
-    if(values.range_over_sold_rsi <= 0 || values.range_over_sold_rsi >= 50){
-        errors.range_over_sold_rsi = "1 - 50";
-    } 
+
+    if(values.strategy.includes("rsi")) {
+        if(values.range_over_bought_rsi > 100 || values.range_over_bought_rsi <= 50){
+            errors.range_over_bought_rsi = "50 - 100";
+        } 
+        if(values.range_over_sold_rsi <= 0 || values.range_over_sold_rsi >= 50){
+            errors.range_over_sold_rsi = "1 - 50";
+        } 
+    }
+
+    if(
+        values.strategy === "velocity trend" || values.strategy === "velocity counter" ||
+        values.strategy === "strength counter" || values.strategy === "strength trend"
+    ){
+        if(values.range_target_high === 0){
+            errors.range_target_high = "*";
+        } 
+        if(values.range_target_low === 0){
+            errors.range_target_low = "*";
+        } 
+    }
+
     return errors
 }
 

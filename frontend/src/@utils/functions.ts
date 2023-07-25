@@ -92,7 +92,7 @@ export const timeExpire = (future: Date, milli=0) => {
 };
 
 export const minutes_to_string = (minutes: number) => {
-    const time = 60 > minutes ? `${minutes} minute` :
+    const time = 60 >= minutes ? `${minutes} minute` :
         minutes >= 60 && minutes < (60 * 24) ? `${minutes / 60} hour` :
         minutes >= (60 * 24) && minutes < (60 * 24 * 7) ? `${minutes / 60 / 24} day` :
         `${minutes / 60 / 24 / 7} week`
