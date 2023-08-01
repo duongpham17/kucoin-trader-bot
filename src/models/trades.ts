@@ -24,6 +24,7 @@ export interface ITrades extends Document {
     range_target_high: number,
     range_target_low: number
     range_time: number,
+    range_cooldown_minute: number,
     //for exit targets
     range_stop_loss: number,
     range_take_profit: number,
@@ -109,6 +110,9 @@ const TradesSchema = new Schema<ITrades>({
     },
     range_time:{
         type: Number,
+    },
+    range_cooldown_minute: {
+        type: Number
     },
     //for exit targets
     range_stop_loss: {

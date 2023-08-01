@@ -6,6 +6,7 @@
 import Trades from '../models/trades';
 
 import {
+    cooldown,
     action_break, 
     action_delete, 
     action_manual, 
@@ -13,7 +14,7 @@ import {
     exchanage_api,
     strategy_methods, 
     open_position, 
-    close_position
+    close_position,
 } from './methods';
 
 const bot = () => {
@@ -29,7 +30,7 @@ const bot = () => {
 
             // ACTIONS - Manual - This action will close position, any trade open will close
             if(trade.action === "manual"){
-                await action_manual({trade, price, KucoinLive})
+                await action_manual({trade, price, KucoinLive});
                 continue;
             };
             // ACTIONS - Break - This action will stop trade from running, any trade open will close
@@ -42,6 +43,10 @@ const bot = () => {
                 await action_delete({trade, price, KucoinLive});
                 continue;
             };
+
+            // On Coolodwn
+            const isOnCooldown = cooldown(trade);
+            if(isOnCooldown) continue;
 
             // Not Trading
             if(!trade.orderId) {

@@ -26,6 +26,7 @@ export interface ITrades {
     range_target_low: number
     range_period: number,
     range_time: number,
+    range_cooldown_minute: number,
     //for exit targets
     range_stop_loss: number,
     range_take_profit: number,

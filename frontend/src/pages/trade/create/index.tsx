@@ -38,6 +38,7 @@ const Create = () => {
         range_target_low: 0,
         range_period: 5,
         range_time: 0,
+        range_cooldown_minute: 0,
         createdAt: new Date(),
     };
 
@@ -96,14 +97,25 @@ const Create = () => {
                     onClick={e => onSetValue({strategy: e})}
                 />
 
-                <Input 
-                    label1="Timer"
-                    placeholder='minutes'
-                    type="number"
-                    name="range_time"
-                    value={values.range_time || ""}
-                    onChange={onChange}
-                />
+                <Flex>
+                    <Input 
+                        label1="Expire Timer"
+                        placeholder='minutes'
+                        type="number"
+                        name="range_time"
+                        value={values.range_time || ""}
+                        onChange={onChange}
+                    />
+
+                    <Input 
+                        label1="Cooldown Timer"
+                        placeholder='minutes'
+                        type="number"
+                        name="range_cooldown_minute"
+                        value={values.range_cooldown_minute || ""}
+                        onChange={onChange}
+                    />
+                </Flex>
 
                 {/*********** COUNTER ***********/}
                 {values.strategy === "counter" &&

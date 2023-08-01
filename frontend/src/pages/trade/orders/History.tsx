@@ -71,8 +71,13 @@ const History = () => {
     return (<Empty />)
   }
 
-  return ( orders === null ? <Loading center/> :
+  if(orders === null) {
+    return (<Loading center/>)
+  }
+
+  return (
     <>
+
       <Flex>
         <Flex>
           <Label2 name="Total" value={!orders.length ? "0" : orders.length}/>
@@ -97,7 +102,7 @@ const History = () => {
           <Container key={el._id} background="dark">
             <Flex>
               <div>
-                <Bullets text={[el._id.slice(-6).toUpperCase(), el.market_id, el.live?"LIVE":"TEST", el.strategy.toUpperCase()]} />
+                <Bullets text={[el.tradeId.slice(-6).toUpperCase(), el.market_id, el.live?"LIVE":"TEST", el.strategy.toUpperCase()]} />
                 <Label1 name={`${el.closedAt} ( ${timeDifference(el.closedAt, el.createdAt)} )`} color="light" size="0.7rem"/>
               </div>
               <Label3 name={`$${el.profit_loss.toFixed(2)}`} color={el.profit_loss >= 0 ? "green" : "red"} size="1.2rem" />

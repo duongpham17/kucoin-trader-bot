@@ -242,6 +242,13 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
     };
 };
 
+export const cooldown = (trade: ITrades) => {
+    if(trade.range_cooldown_minute === 0) return false;
+    const future = new Date(trade.createdAt).getTime() + (trade.range_cooldown_minute * 60 * 1000);
+    const isOnCooldown = future >= Date.now();
+    return isOnCooldown;
+};
+
 export const calc_entry_price = async ({trade, price, KucoinLive}: {KucoinLive: any, trade: ITrades, price: number}) => {
     const is_entry_calculated = trade.open_long === 0 && trade.open_short === 0;
     if(is_entry_calculated === false) return false;
@@ -292,21 +299,17 @@ export const close_position = async ({trade, price, KucoinLive}: {trade: ITrades
         const position = await KucoinLive.getPosition(trade.orderId);
         if(position.isOpen === false) await clean_up_close_position({trade, price});
     };
-    const [
-        stop_loss_hit, 
-        take_profit_hit,
-        time_expired,
-    ] = [
-        trade.side === "buy" ? price <= trade.open_stop_loss : price >= trade.open_stop_loss, 
-        trade.side === "buy" ? price >= trade.open_take_profit : price <= trade.open_take_profit,
-        trade.range_time === 0 ? false : timeExpire(trade.createdAt, trade.range_time) < 0
-    ];
+    // variables
+    const stop_loss_hit = trade.side.toLowerCase() === "buy" ? trade.open_stop_loss >= price : price >= trade.open_stop_loss;
+    const take_profit_hit = trade.side.toLowerCase() === "buy" ? price >= trade.open_take_profit : price <= trade.open_take_profit;
+    const time_expired = trade.range_time === 0 ? false : timeExpire(trade.createdAt, trade.range_time) < 0;
+    
     // profit or loss will close via stop losss.
     if(stop_loss_hit || time_expired){
         await quick_close_position({trade, price, KucoinLive});
         return;
     };
-    //trailing take profit, keep increasing the range of profit taking to match volatility.
+    // trailing take profit, keep increasing the range of profit taking to match volatility.
     if(take_profit_hit){
         await Trades.findByIdAndUpdate(trade._id, {
             open_stop_loss: trade.side === "buy" ? price - (trade.range_stop_loss*0.01) : price + (trade.range_stop_loss*0.01),

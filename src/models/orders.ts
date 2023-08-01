@@ -27,6 +27,7 @@ export interface IOrders extends Partial<Document> {
     range_stop_loss: number,
     range_take_profit: number,
     range_time: number,
+    range_cooldown_minute: number,
     //
     closedAt: Date,
     createdAt: Date,

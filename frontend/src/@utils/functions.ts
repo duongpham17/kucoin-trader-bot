@@ -85,10 +85,10 @@ export const second_till_zero = (minute: number) => {
     return second_to_zero
 };
 
-export const timeExpire = (future: Date, milli=0) => {
-    const time = (new Date(future).getTime()+(milli*60*1000)) - Date.now();
-    const minutes = Math.round(time / 60 / 1000);
-    return minutes
+export const timeExpire = (future: Date, minute=0) => {
+    const time = (new Date(future).getTime()+(minute*60*1000)) - Date.now();
+    const calc_minutes = Math.round(time / 60 / 1000);
+    return calc_minutes
 };
 
 export const minutes_to_string = (minutes: number) => {
