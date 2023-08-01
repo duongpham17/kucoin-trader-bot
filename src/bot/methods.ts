@@ -279,6 +279,7 @@ export const clean_up_close_position = async ({trade, price}: {trade: ITrades, p
         side: "",
         open_short: 0,
         open_long: 0,
+        createdAt: new Date(),
     }, {new: true});
 } 
 
@@ -299,20 +300,18 @@ export const close_position = async ({trade, price, KucoinLive}: {trade: ITrades
         const position = await KucoinLive.getPosition(trade.orderId);
         if(position.isOpen === false) await clean_up_close_position({trade, price});
     };
-    // variables
     const stop_loss_hit = trade.side.toLowerCase() === "buy" ? trade.open_stop_loss >= price : price >= trade.open_stop_loss;
-    const take_profit_hit = trade.side.toLowerCase() === "buy" ? price >= trade.open_take_profit : price <= trade.open_take_profit;
     const time_expired = trade.range_time === 0 ? false : timeExpire(trade.createdAt, trade.range_time) < 0;
-    
     // profit or loss will close via stop losss.
     if(stop_loss_hit || time_expired){
         await quick_close_position({trade, price, KucoinLive});
         return;
     };
+    const take_profit_hit = trade.side.toLowerCase() === "buy" ? price >= trade.open_take_profit : price <= trade.open_take_profit;
     // trailing take profit, keep increasing the range of profit taking to match volatility.
     if(take_profit_hit){
         await Trades.findByIdAndUpdate(trade._id, {
-            open_stop_loss: trade.side === "buy" ? price - (trade.range_stop_loss*0.01) : price + (trade.range_stop_loss*0.01),
+            open_stop_loss: trade.side === "buy" ? price - (trade.range_stop_loss*0.05) : price + (trade.range_stop_loss*0.05),
             open_take_profit: trade.side === "buy" ? price + trade.range_take_profit : price - trade.range_take_profit
         }, {new: true});
         return;

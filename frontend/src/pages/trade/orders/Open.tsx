@@ -252,10 +252,10 @@ const PositionClosed = ({trade, context}: {trade: ITrades, context: IContext}) =
       {/*********** COUNTER ***********/}
       {trade.strategy === "counter" && 
         <>
-          <Label1 color="light" name="Open Long"   value={trade.open_long.toFixed(5)} />
           <Label1 color="light" name="Range Long"  value={trade.range_long.toFixed(5)} />
-          <Label1 color="light" name="Open Short"  value={trade.open_short.toFixed(5)} />
           <Label1 color="light" name="Range Short" value={trade.range_short.toFixed(5)} />
+          <Label1 color="light" name="Open Long"   value={trade.open_long.toFixed(5)} />
+          <Label1 color="light" name="Open Short"  value={trade.open_short.toFixed(5)} />
         </>
       }
       {trade.strategy === "counter long only" && 
@@ -275,8 +275,8 @@ const PositionClosed = ({trade, context}: {trade: ITrades, context: IContext}) =
       {trade.strategy === "trend" && 
         <>
           <Label1 color="light" name="Open Long"   value={trade.open_long.toFixed(5)} />
-          <Label1 color="light" name="Range Long"  value={trade.range_long.toFixed(5)} />
           <Label1 color="light" name="Open Short"  value={trade.open_short.toFixed(5)} />
+          <Label1 color="light" name="Range Long"  value={trade.range_long.toFixed(5)} />
           <Label1 color="light" name="Range Short" value={trade.range_short.toFixed(5)} />
         </>
       }
