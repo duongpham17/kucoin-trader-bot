@@ -1,6 +1,6 @@
 import useQuery from '@hooks/useQuery';
 import Select from '@components/options/Style1';
-import {minutes_to_string} from '@utils/functions';
+import { minuteToString } from '@utils/time';
 
 const Period = () => {
 
@@ -18,8 +18,8 @@ const Period = () => {
 
     return ( 
         <Select 
-            items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
-            selected={`Period ${minutes_to_string(Number(query.getQueryValue("period"))) || 1}`} 
+            items={["1 minute", "5 minute", "15 minute", "30 minute", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
+            selected={`Period ${minuteToString(Number(query.getQueryValue("period"))) || 1}`} 
             onClick={onClick} 
             color="plain"
         /> 

@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from '@redux/hooks/useRedux';
 import { ITrades } from '@redux/types/trades';
 import Trades from '@redux/actions/trades';
-import { timeExpire, minutes_to_string } from '@utils/functions';
+import { timeExpire, minuteToString, UK } from '@utils/time';
 import { AiFillDelete, AiOutlinePause, AiOutlineClose } from 'react-icons/ai';
 
 import useOpen from '@hooks/useOpen';
@@ -95,6 +95,9 @@ const Open = () => {
   
   return (
     <>
+
+      <Heading trades={trades} />
+
       {trades?.map((el) => 
         <Container key={el._id} background="dark">
 
@@ -118,6 +121,8 @@ const Open = () => {
 
         </Container>  
       )}
+
+
     </>
   )
 }
@@ -125,6 +130,32 @@ const Open = () => {
 export default Open;
 
 /***************************************************************************************************************************************/
+
+const Heading = ({trades}: {trades: ITrades[]}) => {
+
+  const calc_data = () => {
+    let [live, test, open, close] = [0,0,0,0];
+
+    for(let t of trades){
+      t.live ? live+=1 : test+=1;
+      t.orderId ? open+=1 : close+=1;
+    }
+
+    return { live, test, open, close}
+  }
+
+  const data = calc_data()
+
+  return (
+    <Flex style={{padding: "0.5rem 0"}}>
+      <Label2 name={"Scripts"} value={trades.length}/>
+      <Label2 name={`Live `} value={data.live}  />
+      <Label2 name={`Test `} value={data.test}  />
+      <Label2 name={`Open `} value={data.open}  />
+      <Label2 name={`Close`} value={data.close} />
+    </Flex>
+  )
+}
 
 const Summary = ({trade, context}: {trade: ITrades, context: IContext}) => {
 
@@ -134,7 +165,7 @@ const Summary = ({trade, context}: {trade: ITrades, context: IContext}) => {
     <Flex>
       <div>
         <Bullets text={[trade._id.slice(-6).toUpperCase(), trade.market_id, trade.live?"LIVE":"TEST", trade.strategy.toUpperCase()]}/>
-        <Label1 name={trade.createdAt.toLocaleString()} color="light" size="0.7rem"/>
+        <Label1 name={UK(trade.createdAt)} color="light" size="0.7rem"/>
       </div>
       <Flex>
         {!trade.running && 
@@ -296,40 +327,40 @@ const PositionClosed = ({trade, context}: {trade: ITrades, context: IContext}) =
       {/*********** RSI COUNTER ***********/}
       {trade.strategy === "rsi counter" &&
         <>
-          <Label1 color="light" name="Period"  value={minutes_to_string(trade.range_period)} />     
+          <Label1 color="light" name="Period"  value={minuteToString(trade.range_period)} />     
           <Label1 color="light" name="Over Bought Rsi"  value={trade.range_over_bought_rsi} />
           <Label1 color="light" name="Over Sold Rsi" value={trade.range_over_sold_rsi} />
         </>
       }   
       {trade.strategy === "rsi counter long only" &&
         <>
-          <Label1 color="light" name="Period"  value={minutes_to_string(trade.range_period)} />
+          <Label1 color="light" name="Period"  value={minuteToString(trade.range_period)} />
           <Label1 color="light" name="Over Bought Rsi"  value={trade.range_over_bought_rsi} />
         </>
       }   
       {trade.strategy === "rsi counter short only" &&
         <>
-          <Label1 color="light" name="Period"  value={minutes_to_string(trade.range_period)} />
+          <Label1 color="light" name="Period"  value={minuteToString(trade.range_period)} />
           <Label1 color="light" name="Over Sold Rsi" value={trade.range_over_sold_rsi} />
         </>
       }   
       {/*********** RSI TREND ***********/}
       {trade.strategy === "rsi trend" &&
         <>
-          <Label1 color="light" name="Period"  value={minutes_to_string(trade.range_period)} />
+          <Label1 color="light" name="Period"  value={minuteToString(trade.range_period)} />
           <Label1 color="light" name="Over Bought Rsi"  value={trade.range_over_bought_rsi} />
           <Label1 color="light" name="Over Sold Rsi" value={trade.range_over_sold_rsi} />
         </>
       }   
       {trade.strategy === "rsi trend long only" &&
         <>
-          <Label1 color="light" name="Period"  value={minutes_to_string(trade.range_period)} />
+          <Label1 color="light" name="Period"  value={minuteToString(trade.range_period)} />
           <Label1 color="light" name="Over Bought Rsi"  value={trade.range_over_bought_rsi} />
         </>
       }   
       {trade.strategy === "rsi trend short only" &&
         <>
-          <Label1 color="light" name="Period"  value={minutes_to_string(trade.range_period)} />
+          <Label1 color="light" name="Period"  value={minuteToString(trade.range_period)} />
           <Label1 color="light" name="Over Sold Rsi" value={trade.range_over_sold_rsi} />
         </>
       }   
@@ -337,7 +368,7 @@ const PositionClosed = ({trade, context}: {trade: ITrades, context: IContext}) =
       {/*********** STRENGTH ***********/}
       {(trade.strategy === "strength counter" || trade.strategy === "strength trend") &&
         <>
-          <Label1 color="light" name="Period" value={minutes_to_string(trade.range_period)} />
+          <Label1 color="light" name="Period" value={minuteToString(trade.range_period)} />
           <Label1 color="light" name="High Strength"   value={trade.range_target_high} />
           <Label1 color="light" name="Low Strength"  value={trade.range_target_low} />
         </>
@@ -346,9 +377,18 @@ const PositionClosed = ({trade, context}: {trade: ITrades, context: IContext}) =
       {/*********** VELOCITY ***********/}
       {(trade.strategy === "velocity counter" || trade.strategy === "velocity trend") &&
         <>
-          <Label1 color="light" name="Period" value={minutes_to_string(trade.range_period)} />
+          <Label1 color="light" name="Period" value={minuteToString(trade.range_period)} />
           <Label1 color="light" name="Pump Range"  value={trade.range_target_high} />
           <Label1 color="light" name="Dump Range"  value={trade.range_target_low} />
+        </>
+      }
+
+      {/*********** VELOCITY ***********/}
+      {(trade.strategy === "trend counter" || trade.strategy === "trend trend") &&
+        <>
+          <Label1 color="light" name="Period" value={minuteToString(trade.range_period)} />
+          <Label1 color="light" name="Up Range"  value={trade.range_target_high} />
+          <Label1 color="light" name="Down Range"  value={trade.range_target_low} />
         </>
       }
 

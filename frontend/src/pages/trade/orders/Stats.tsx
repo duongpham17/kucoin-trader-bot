@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '@redux/hooks/useRedux';
 import Trades from '@redux/actions/trades';
 import {IOrders} from '@redux/types/orders';
 import useLoading from '@hooks/useLoading';
-import {timeDifference} from '@utils/functions';
+import {timeDifference, UK} from '@utils/time';
 
 import Container from '@components/containers/Style1';
 import Flex from '@components/flex/Style1';
@@ -78,7 +78,7 @@ const OrdersContainer = ({orders}: {orders: IOrders[]}) => {
               <Label2 name="CLOSE" value={`${el.close_price}`}/>
             </Flex>
             <Flex>
-              <Label2 name="" value={`${el.closedAt} (${timeDifference(el.closedAt, el.createdAt)})`} size="0.8rem" color="light"/>
+              <Label2 name="" value={`${UK(el.createdAt)} (${timeDifference(el.closedAt, el.createdAt)})`} size="0.8rem" color="light"/>
             </Flex>
           </Container>  
         }

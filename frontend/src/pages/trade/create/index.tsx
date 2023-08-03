@@ -6,7 +6,7 @@ import useQuery from '@hooks/useQuery';
 import useForm from '@hooks/useForm';
 import validation from './validation';
 
-import { minutes_to_string } from '@utils/functions';
+import { minuteToString } from '@utils/time';
 
 import Checkbox from '@components/inputs/Checkbox';
 import Input from '@components/inputs/Input';
@@ -237,7 +237,7 @@ const Create = () => {
                         <Select 
                             label1="Period"
                             items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
-                            selected={minutes_to_string(Number(values.range_period))} 
+                            selected={minuteToString(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
                     </>
@@ -269,7 +269,7 @@ const Create = () => {
                         <Select 
                             label1="Period"
                             items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
-                            selected={minutes_to_string(Number(values.range_period))} 
+                            selected={minuteToString(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
                     </>
@@ -303,7 +303,7 @@ const Create = () => {
                         <Select 
                             label1="Period"
                             items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
-                            selected={minutes_to_string(Number(values.range_period))} 
+                            selected={minuteToString(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
                     </>
@@ -335,7 +335,7 @@ const Create = () => {
                         <Select 
                             label1="Period"
                             items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
-                            selected={minutes_to_string(Number(values.range_period))} 
+                            selected={minuteToString(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
                     </>
@@ -367,7 +367,7 @@ const Create = () => {
                         <Select 
                             label1="Period"
                             items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
-                            selected={minutes_to_string(Number(values.range_period))} 
+                            selected={minuteToString(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
                     </>
@@ -399,7 +399,7 @@ const Create = () => {
                         <Select 
                             label1="Period"
                             items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
-                            selected={minutes_to_string(Number(values.range_period))} 
+                            selected={minuteToString(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
                     </>
@@ -431,7 +431,39 @@ const Create = () => {
                         <Select 
                             label1="Period"
                             items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
-                            selected={minutes_to_string(Number(values.range_period))} 
+                            selected={minuteToString(Number(values.range_period))} 
+                            onClick={setPeriod} 
+                        /> 
+                    </>
+                }
+
+                {/*********** TREND ***********/}
+                {(values.strategy === "trend counter" || values.strategy === "trend trend") && 
+                    <>
+                        <Flex>
+                            <Input 
+                                label1="Up Range"
+                                label2={errors.range_target_high}
+                                error={errors.range_target_high}
+                                type="number"
+                                name="range_target_high"
+                                value={values.range_target_high || ""}
+                                onChange={onChange}
+                            />
+                            <Input 
+                                label1="Down Range"
+                                label2={errors.range_target_low}
+                                error={errors.range_target_low}
+                                type="number"
+                                name="range_target_low"
+                                value={values.range_target_low || ""}
+                                onChange={onChange}
+                            />
+                        </Flex>
+                        <Select 
+                            label1="Period"
+                            items={["1 min", "5 min", "15 min", "30 min", "1 hour", "2 hour", "4 hour", "12 hour", "1 day", "1 week"]} 
+                            selected={minuteToString(Number(values.range_period))} 
                             onClick={setPeriod} 
                         /> 
                     </>

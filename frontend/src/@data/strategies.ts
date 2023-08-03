@@ -4,7 +4,8 @@ export type TradingStrategy =
     "rsi counter" | "rsi counter long only" | "rsi counter short only" | 
     "rsi trend" | "rsi trend long only" | "rsi trend short only" |
     "strength trend" | "strength counter" |
-    "velocity trend" | "velocity counter"
+    "velocity trend" | "velocity counter" | 
+    "trend trend" | "trend counter";
 
 export type Side = 
     "buy" | "sell" | "both";
@@ -126,6 +127,20 @@ export const strategies: Strategies[] = [
         side: "both",
         description: `
             Measures the price change in speed, when it pumps long, when it dumps short
+        `
+    },
+    {
+        name: "trend trend",
+        side: "both",
+        description: `
+            Measures the trend in price close, when trend is down short, when trend is up long
+        `
+    },
+    {
+        name: "trend counter",
+        side: "both",
+        description: `
+         Measures the trend in price close, when trend is down long, when trend is up short
         `
     }
 ];

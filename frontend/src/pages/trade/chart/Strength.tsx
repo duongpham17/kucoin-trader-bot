@@ -1,13 +1,14 @@
 import { AreaChart, XAxis, YAxis, Area, Tooltip, ResponsiveContainer} from 'recharts';
 import { KLines } from '@redux/types/trades';
+import { UK } from '@utils/time';
 
 const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
       <div>
-        <p>{new Date(data.time).toISOString()}</p>
-        <span>Strength {data.strength}</span>
+        <p>{UK(data.time)}</p>
+        <span>Strength ( {data.strength >= 0 ? "Long" : "Short"} ) {data.strength}</span>
       </div>
     );
   }
@@ -43,7 +44,7 @@ const Strength = ({klines}:{klines: KLines}) => {
   return (
     <ResponsiveContainer width="100%" height={180}>
       <AreaChart data={data} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
-        <XAxis dataKey="time" tickFormatter={(time) => new Date(time).toISOString().split("T").join(" ").split(".").slice(0,1).join(" ")} minTickGap={50} fontSize={12}/>
+        <XAxis dataKey="time" tickFormatter={(time) => UK(time)} minTickGap={50} fontSize={12}/>
         <YAxis dataKey="strength" domain={["auto", "auto"]} fontSize={12}/>
         <Area dataKey="strength" opacity={0.5} stroke="#6042d7" fill="#6042d7"/>
         <Tooltip content={<CustomToolTips payload={data}/>}/>

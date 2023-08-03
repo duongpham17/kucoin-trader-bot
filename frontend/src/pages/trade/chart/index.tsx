@@ -13,6 +13,7 @@ import Strength from './Strength';
 import Rsi from './Rsi';
 import Volume from './Volume';
 import Velocity from './velocity';
+import Trend from './Trend';
 
 const Chart = () => {
 
@@ -43,7 +44,7 @@ const Chart = () => {
 
         <Select 
           color="plain" 
-          items={["rsi", "strength", "volume", "velocity"]} 
+          items={["rsi", "strength", "volume", "velocity", "trend"]} 
           onClick={(e) => onOpenLocal(e.toString(), false)} selected={openLocal} 
         />
 
@@ -54,6 +55,8 @@ const Chart = () => {
         {openLocal === "volume" && <Volume klines={klines} />}
 
         {openLocal === "velocity" && <Velocity klines={klines} />}
+
+        {openLocal === "trend" && <Trend klines={klines} /> }
 
       </>  
     )

@@ -1,5 +1,6 @@
 import {kucoin, Klines} from '../@api/kucoin';
 import {generateid, timeExpire} from '../@utils/functions';
+import {calculateRsi, calculateVelocity, calculateStrength, calculateTrend} from './formula';
 import Trades, {ITrades} from '../models/trades';
 import Orders from '../models/orders';
 
@@ -12,114 +13,47 @@ export const exchanage_api = async ({trade}: {trade: ITrades}) => {
     }
 };
 
-// [time, open, high, low, close, volume]
-export const calculateRSI = (klines: [number, number, number, number, number, number][], period=14): {rsi: number}[] => {
-    const closePrices = klines.map(data => data[4]);
-    const gains: number[] = [];
-    const losses: number[] = [];
-  
-    for (let i = 1; i < closePrices.length; i++) {
-      const diff = closePrices[i] - closePrices[i - 1];
-      gains.push(diff > 0 ? diff : 0);
-      losses.push(diff < 0 ? Math.abs(diff) : 0);
-    };
-  
-    const average = (numbers: number[]): number => {
-      const sum = numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-      return sum / numbers.length;
-    };
-  
-    let [avgGain, avgLoss] = [ average(gains.slice(0, period)), average(losses.slice(0, period)) ];
-    const RSI: number[] = [];
-  
-    RSI.push(avgGain / avgLoss);
-  
-    for (let i = period; i < closePrices.length; i++) {
-      const gain = gains[i - 1];
-      const loss = losses[i - 1];
-      avgGain = ((avgGain * (period - 1)) + gain) / period;
-      avgLoss = ((avgLoss * (period - 1)) + loss) / period;
-      RSI.push(avgGain / avgLoss);
-    };
-  
-    return RSI.map((rsValue) => ({
-      rsi: 100 - (100 / (1 + rsValue)),
-    }));
-};
-
-const calculateStrength = (klines: [number, number, number, number, number, number][]) => {
-    const str = [{time: 0, strength: 0}];
-    for(const i in klines){
-      const index = Number(i);
-      if(klines.length === index+1 ) break;
-      const [current, future] = [ klines[index][4], klines[index+1][4] ];
-      if(current < future) {
-        str.push({
-          time: klines[index][0],
-          strength: str[index].strength+1
-        })
-      } else {
-        str.push({
-          time: klines[index][0],
-          strength: str[index].strength-1
-        })
-      };
-    }
-    return str;
-};
-
-const calculateVelcoity = (klines: [number, number, number, number, number, number][]) => {
-    const data = klines.slice(-1)[0];
-    const velocity = ((data[2] - data[3]) / data[1]) * 100;
-    const direction = data[1] > data[4];
-    return {
-        velocity,
-        direction : direction ? "up" : "down"
-    };
-};
-
 export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrades, price: number, KucoinLive: any})  => {
     let [isLong, isShort] = [false, false];
     const {open_short, open_long, strategy} = trade;
 
+    // Standard Counter
     if(strategy === "counter"){
         const long = price <= open_short;
         isLong = long;
         const short = price >= open_long;
         isShort = short;
     };
-
     if(strategy === "counter long only"){
         const long = price <= open_short;
         isLong = long;
     };
-
     if(strategy === "counter short only"){
         const short = price >= open_long;
         isShort = short;
     };
 
+    // Standard Trend
     if (strategy === "trend"){
         const long = price >= open_long;
         isLong = long;
         const short = price <= open_short;
         isShort = short;
     };
-
     if (strategy === "trend long only"){
         const long = price >= open_long;
         isLong = long;
     };
-
     if (strategy === "trend short only"){
         const short = price <= open_short;
         isShort = short;
     };
 
+    // Rsi Counter
     if(strategy === "rsi counter"){
         const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150));
+            const rsi = calculateRsi(klines);
             const value = Number(rsi.slice(-1)[0].rsi);
             const long = value <= trade.range_over_sold_rsi;
             isLong = long;
@@ -127,31 +61,30 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
             isShort = short;
         }
     };
-
     if(strategy === "rsi counter long only"){
         const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150));
+            const rsi = calculateRsi(klines);
             const value = Number(rsi.slice(-1)[0].rsi);
             const long = value <= trade.range_over_sold_rsi;
             isLong = long;
         }
     };
-
     if(strategy === "rsi counter short only"){
         const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150));
+            const rsi = calculateRsi(klines);
             const value = Number(rsi.slice(-1)[0].rsi);
             const short = value >= trade.range_over_bought_rsi;
             isShort = short;
         }
     };
 
+    // Rsi Trend
     if(strategy === "rsi trend"){
         const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150));
+            const rsi = calculateRsi(klines);
             const value = Number(rsi.slice(-1)[0].rsi);
             const long = value >= trade.range_over_bought_rsi;
             isLong = long;
@@ -159,53 +92,54 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
             isShort = short;
         }
     };
-
     if(strategy === "rsi trend long only"){
         const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150));
+            const rsi = calculateRsi(klines);
             const value = Number(rsi.slice(-1)[0].rsi);
             const long = value >= trade.range_over_bought_rsi;
             isLong = long;
         }
     };
-
     if(strategy === "rsi trend short only"){
         const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const rsi = calculateRSI(klines.slice(150));
+            const rsi = calculateRsi(klines);
             const value = Number(rsi.slice(-1)[0].rsi);
             const short = value <= trade.range_over_sold_rsi;
             isShort = short;
         }
     };
 
+    // Strength
     if(strategy === "strength counter"){
         const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const strength = calculateStrength(klines.slice(150));
-            const short = strength.slice(-1)[0].strength >= trade.range_target_high;
+            const strength = calculateStrength(klines);
+            const latest = strength.slice(-1)[0];
+            const short = latest >= trade.range_target_high;
             isShort = short
-            const long = strength.slice(-1)[0].strength <= trade.range_target_low;
+            const long = latest <= trade.range_target_low;
             isLong = long
         }
     };
-
     if(strategy === "strength trend"){
         const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines) {
-            const strength = calculateStrength(klines.slice(150));
-            const long = strength.slice(-1)[0].strength >= trade.range_target_high;
+            const strength = calculateStrength(klines);
+            const latest = strength.slice(-1)[0];
+            const long = latest >= trade.range_target_high;
             isLong = long
-            const short = strength.slice(-1)[0].strength <= trade.range_target_low;
+            const short = latest <= trade.range_target_low;
             isShort = short
         }
     };
 
+    // Velocity
     if(strategy === "velocity counter"){
         const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines){
-            const {velocity, direction} = calculateVelcoity(klines);
+            const {velocity, direction} = calculateVelocity(klines);
             if(direction === "up"){
                 const short = velocity >= trade.range_target_high;
                 isShort = short;
@@ -215,11 +149,10 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
             }
         }
     };
-
     if(strategy === "velocity trend"){
         const klines = await KucoinLive.getKlines(trade.range_period);
         if(klines){
-            const {velocity, direction} = calculateVelcoity(klines);
+            const {velocity, direction} = calculateVelocity(klines);
             if(direction === "up"){
                 const long = velocity >= trade.range_target_high;
                 isLong = long;
@@ -227,6 +160,28 @@ export const strategy_methods = async ({trade, price, KucoinLive}: {trade: ITrad
                 const short = velocity >= trade.range_target_low;
                 isShort = short;
             }
+        }
+    };
+
+    // Trend
+    if(strategy === "trend trend"){
+        const klines = await KucoinLive.getKlines(trade.range_period);
+        if(klines){
+            const value = calculateTrend(klines).slice(-1)[0];
+            const long = value >= trade.range_target_high;
+            isLong = long;
+            const short = value <= trade.range_target_low;
+            isShort = short;
+        }
+    };
+    if(strategy === "trend counter"){
+        const klines = await KucoinLive.getKlines(trade.range_period);
+        if(klines){
+            const value = calculateTrend(klines).slice(-1)[0];
+            const short = value >= trade.range_target_high;
+            isShort = short;
+            const long = value <= trade.range_target_low;
+            isLong = long;
         }
     };
 

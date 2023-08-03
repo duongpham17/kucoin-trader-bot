@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '@redux/hooks/useRedux';
 import Orders from '@redux/actions/orders';
 
-import {timeDifference} from '@utils/functions';
+import {timeDifference, UK} from '@utils/time';
 import useOpen from '@hooks/useOpen';
 import useQuery from '@hooks/useQuery';
 
@@ -77,8 +77,8 @@ const History = () => {
 
   return (
     <>
-
-      <Flex>
+    
+      <Flex style={{"padding": "0.5rem 0"}}>
         <Flex>
           <Label2 name="Total" value={!orders.length ? "0" : orders.length}/>
           <Label2 name="Win" value={RATE_memo.win} />
@@ -103,7 +103,7 @@ const History = () => {
             <Flex>
               <div>
                 <Bullets text={[el.tradeId.slice(-6).toUpperCase(), el.market_id, el.live?"LIVE":"TEST", el.strategy.toUpperCase()]} />
-                <Label1 name={`${el.closedAt} ( ${timeDifference(el.closedAt, el.createdAt)} )`} color="light" size="0.7rem"/>
+                <Label1 name={`${UK(el.createdAt)} ( ${timeDifference(el.closedAt, el.createdAt)} )`} color="light" size="0.7rem"/>
               </div>
               <Label3 name={`$${el.profit_loss.toFixed(2)}`} color={el.profit_loss >= 0 ? "green" : "red"} size="1.2rem" />
             </Flex>
