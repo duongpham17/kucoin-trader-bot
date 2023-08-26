@@ -1,43 +1,93 @@
-import { AreaChart, XAxis, YAxis, Area, Tooltip, ResponsiveContainer} from 'recharts';
 import { KLines } from '@redux/types/trades';
-import Flex from '@components/flex/Style1';
-import { UK } from '@utils/time';
-
-const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      return (
-        <div>
-          <p>{data.time}</p>
-          <Flex><span>OPEN</span> <span>{data.open}</span></Flex>
-          <Flex><span>HIGHEST</span> <span>{data.high}</span></Flex>
-          <Flex><span>LOWEST</span> <span>{data.low}</span></Flex>
-          <Flex><span>CLOSE</span> <span>{data.close}</span></Flex>
-          <Flex><span>VOLUME</span> <span>{data.volume}</span></Flex>
-        </div>
-      );
-    }
-    return null;
-};
+import Container from '@components/containers/Style1';
+import ReactApexChart from "react-apexcharts";
+import { ApexOptions } from "apexcharts";
 
 const Prices = ({klines}:{klines: KLines}) => {
 
-  const data: {time: string, open: number, high: number, low: number, close: number, volume: number}[] 
-    = klines.map(([time, open, high, low, close, volume]) => ({
-      time: UK(new Date(time)), 
-      open, high, low, close, volume
+  const theme = localStorage.getItem("theme");
+
+  const candlestick_data = klines.map(([time, open, high, low, close, volume]) => ({
+    x: time,//UK(new Date(time)), 
+    y: [open, high, low, close]
   }));
 
+  const series = [
+    {
+      data: candlestick_data
+    }
+  ];
+
+  const options: ApexOptions = {
+    chart: {
+      type: 'candlestick',
+      height: 350,
+      toolbar:{
+        show: false
+      }
+    },
+    tooltip:{
+      enabled: true,
+      theme: "",
+      x:{
+        show: true,
+        format: 'dd MMM yyyy HH:mm:ss',
+      },
+    },
+    grid: {
+      show: false
+    },
+    xaxis: {
+      type: 'datetime',
+      labels: {
+        datetimeUTC: false, // Set this to false to use local time
+        format: 'MMM dd, yyyy', // Customize the date format
+      },
+      crosshairs: {
+        show: true,
+        stroke: {
+          color: '#6042d7', // Color of the crosshair line
+          width: 1, // Width of the crosshair line
+          dashArray: 1, // Dash array for stroke
+        },
+        fill: {
+          type: 'solid', // Fill type
+          color: 'red', // Transparent color
+        },
+      },
+      
+    },
+    yaxis: {
+      tooltip: {
+        enabled: true,
+      },
+      crosshairs: {
+        show: true,
+        stroke: {
+          color: '#6042d7', // Color of the crosshair line
+          width: 1, // Width of the crosshair line
+          dashArray: 1, // Dash array for stroke
+        },
+      }
+    }
+  };
+
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <AreaChart data={data} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
-        <XAxis dataKey="time" minTickGap={50} fontSize={12}/>
-        <YAxis dataKey="close" tickFormatter={(close) => close.toFixed(4)} domain={["auto", "auto"]} fontSize={12}/>
-        <Area dataKey="close" opacity={0.5} stroke="#6042d7" fill="#6042d7"/>
-        <Tooltip content={<CustomToolTips payload={data}/>}/>
-      </AreaChart>
-    </ResponsiveContainer>     
-  )
+    <Container style={{padding: "1rem 0"}}>
+      <ReactApexChart options={options} series={series} type="candlestick" height={400} />
+      <style>
+        {`
+          .apexcharts-yaxistooltip, .apexcharts-xaxistooltip, .apexcharts-tooltip {
+            background-color: transparent;
+            padding: 0.5rem;
+            border: 1px solid transparent,
+            color: ${theme?.includes("night") ? "black" : "white"},
+            box-shadow: 0px 0px 0px 0px white
+          }
+        `}
+      </style>
+    </Container>
+  );
 }
 
 export default Prices;

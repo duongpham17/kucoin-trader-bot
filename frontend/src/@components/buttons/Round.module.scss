@@ -40,7 +40,7 @@
 
 .red, .black, .main{
     border: 1px solid var(--clr-light-light);
-    svg, span{
+    *{
         color: white;
     };
     .loading{
@@ -66,6 +66,9 @@
 }
 .main{
     background-color: var(--clr-main);
+    *{
+        color: white;
+    };
 }
 .selected{
     border-color: var(--clr-main);

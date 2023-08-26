@@ -5,14 +5,15 @@ interface Props extends React.HTMLAttributes<HTMLDivElement>{
   name: any,
   value?: any,
   size?: string,
+  weight?: number,
   color?: "default" | "white" | "light" | "dark" | "black" | "grey" | "blue" | "red" | "green" | "main"
 };
 
-const Style1 = ({name, value, color, size, ...props}:Props) => {
+const Style1 = ({name, value, color, size, weight, ...props}:Props) => {
   return (
     <div className={styles.container} {...props} >
-      <label className={styles[color || "default"]} style={{fontSize: size}}>{name}</label>
-      <label className={styles[color || "default"]} style={{fontSize: size}}>{value}</label>
+      <label className={styles[color || "default"]} style={{fontSize: size, fontWeight: weight}}>{name}</label>
+      <label className={styles[color || "default"]} style={{fontSize: size, fontWeight: weight}}>{value}</label>
     </div>
   )
 }

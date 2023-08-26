@@ -1,6 +1,7 @@
 import { AreaChart, XAxis, YAxis, Area, Tooltip, ResponsiveContainer} from 'recharts';
 import { KLines } from '@redux/types/trades';
 import { UK } from '@utils/time';
+import Label from '@components/labels/Style3';
 
 const CustomToolTips = ({ active, payload }: {active?: any, payload: any}) => {
   if (active && payload && payload.length) {
@@ -41,15 +42,27 @@ const Strength = ({klines}:{klines: KLines}) => {
 
   const data = calc_strength();
 
+  const latest = data.length ? data.slice(-1)[0].strength : 0;
+
+  const label = 
+    latest >= 10 ? "Extreme Over Bought" :
+    latest >= 5 ? "Over Bought" :
+    latest <= -10 ? "Extreme Over Sold" :
+    latest <= -5 ? "Over Sold" :
+    "standard"
+
   return (
-    <ResponsiveContainer width="100%" height={180}>
-      <AreaChart data={data} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
-        <XAxis dataKey="time" tickFormatter={(time) => UK(time)} minTickGap={50} fontSize={12}/>
-        <YAxis dataKey="strength" domain={["auto", "auto"]} fontSize={12}/>
-        <Area dataKey="strength" opacity={0.5} stroke="#6042d7" fill="#6042d7"/>
-        <Tooltip content={<CustomToolTips payload={data}/>}/>
-      </AreaChart>
-    </ResponsiveContainer>     
+    <div>
+      <Label value="" name={`STRENGTH ${latest} ${label}`} size="1.5rem" style={{padding: "0.5rem 0"}}/>
+      <ResponsiveContainer width="100%" height={180}>
+        <AreaChart data={data} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
+          <XAxis dataKey="time" tickFormatter={(time) => UK(time)} minTickGap={50} fontSize={12}/>
+          <YAxis dataKey="strength" domain={["auto", "auto"]} fontSize={12}/>
+          <Area dataKey="strength" opacity={0.5} stroke="#6042d7" fill="#6042d7"/>
+          <Tooltip content={<CustomToolTips payload={data}/>}/>
+        </AreaChart>
+      </ResponsiveContainer>  
+    </div>
   )
 }
 

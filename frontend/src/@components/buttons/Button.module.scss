@@ -54,9 +54,9 @@
 
     .red, .black, .main{
         border: 1px solid var(--clr-light-light);
-        p, svg, span{
+        *{
             color: white;
-        };
+        }
         .loading1{
             @include Loading(15px, 15px, 2px, white);
             margin: auto;
@@ -83,6 +83,9 @@
     }
     .blue{
         background-color: var(--clr-blue);
+        *{
+            color: white;
+        }
     }
     .main{
         background-color: var(--clr-main);

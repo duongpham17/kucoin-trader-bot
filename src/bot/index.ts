@@ -61,8 +61,8 @@ async function bot() {
           };
   
           // On Cooldown
-          // const isOnCooldown = cooldown(trade);
-          // if (isOnCooldown) continue;
+          const isOnCooldown = cooldown(trade);
+          if (isOnCooldown) continue;
   
           // Not Trading
           if (!trade.orderId) {

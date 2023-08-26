@@ -1,6 +1,7 @@
 import { AreaChart, XAxis, YAxis, Area, Tooltip, ResponsiveContainer} from 'recharts';
 import { KLines } from '@redux/types/trades';
 import { UK } from '@utils/time';
+import Label from '@components/labels/Style3';
 
 //klines [time, open, highest, lowest, close, volume]
 const calculateRSI = (klines: [number, number, number, number, number, number][], period: number) => {
@@ -73,15 +74,27 @@ const Rsi = ({klines}: {klines: KLines}) => {
 
   const rsi = calculateRSI(klines, 14);
 
+  const latest = rsi.length ? rsi.slice(-1)[0].rsi : 0;
+
+  const label = 
+    latest >= 80 ? "Extreme Over Bought" :
+    latest >= 70 ? "Over Bought" :
+    latest <= 30 ? "Extreme Over Sold" :
+    latest <= 20 ? "Over Sold" :
+    "standard"
+
   return (
-    <ResponsiveContainer width="100%" height={180}>
-      <AreaChart data={rsi} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
-        <XAxis dataKey="time" tickFormatter={(time) => UK(time)} minTickGap={50} fontSize={12}/>
-        <YAxis dataKey="rsi" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
-        <Area dataKey="rsi" opacity={0.5} stroke="#6042d7" fill="#6042d7" />
-        <Tooltip content={<CustomToolTips payload={rsi}/>}/>
-      </AreaChart>
-    </ResponsiveContainer>
+    <div>
+      <Label value="" name={`RSI ${latest} ${label}`} size="1.5rem" style={{padding: "0.5rem 0"}}/>
+      <ResponsiveContainer width="100%" height={180}>
+        <AreaChart data={rsi} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
+          <XAxis dataKey="time" tickFormatter={(time) => UK(time)} minTickGap={50} fontSize={12}/>
+          <YAxis dataKey="rsi" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
+          <Area dataKey="rsi" opacity={0.5} stroke="#6042d7" fill="#6042d7" />
+          <Tooltip content={<CustomToolTips payload={rsi}/>}/>
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   )
 }
 

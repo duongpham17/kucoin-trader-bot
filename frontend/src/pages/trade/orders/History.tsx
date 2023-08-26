@@ -67,10 +67,6 @@ const History = () => {
     }
   }, [orders]);
 
-  if(!orders || !orders.length) {
-    return (<Empty />)
-  }
-
   if(orders === null) {
     return (<Loading center/>)
   }
@@ -97,33 +93,38 @@ const History = () => {
         </Flex>
       </Flex>
 
-      <Pagination data={orders} show={20}>
-        {(el) =>                  
-          <Container key={el._id} background="dark">
-            <Flex>
-              <div>
-                <Bullets text={[el.tradeId.slice(-6).toUpperCase(), el.market_id, el.live?"LIVE":"TEST", el.strategy.toUpperCase()]} />
-                <Label1 name={`${UK(el.createdAt)} ( ${timeDifference(el.closedAt, el.createdAt)} )`} color="light" size="0.7rem"/>
-              </div>
-              <Label3 name={`$${el.profit_loss.toFixed(2)}`} color={el.profit_loss >= 0 ? "green" : "red"} size="1.2rem" />
-            </Flex>
-            <Line/>
-            <Flex>
-              <Label2 name="Side" value={el.side.toUpperCase()} />
-              <Label2 name="Position" value={el.position_size}/>
-              <Label2 name="Leverage" value={`${el.leverage}x`}/>
-              <Label2 name="Cost" value={`$${((el.close_price*el.position_size)/el.leverage).toFixed(2)}`}/>
-            </Flex>
-            <Line/>
-            <Flex>
-              <Label2 name="Open Price" value={el.open_price}/>
-              <Label2 name="Close Price" value={el.close_price}/>
-              <Label2 name="" value="" />
-              <Label2 name="" value="" />
-            </Flex>
-          </Container>    
-        }
-      </Pagination>
+      {!orders || !orders.length 
+      ? 
+        <Empty/>
+      :
+        <Pagination data={orders} show={20}>
+          {(el) =>                  
+            <Container key={el._id} background="dark">
+              <Flex>
+                <div>
+                  <Bullets text={[el.tradeId.slice(-6).toUpperCase(), el.market_id, el.live?"LIVE":"TEST", el.strategy.toUpperCase()]} />
+                  <Label1 name={`${UK(el.createdAt)} ( ${timeDifference(el.closedAt, el.createdAt)} )`} color="light" size="0.7rem"/>
+                </div>
+                <Label3 name={`$${el.profit_loss.toFixed(2)}`} color={el.profit_loss >= 0 ? "green" : "red"} size="1.2rem" />
+              </Flex>
+              <Line/>
+              <Flex>
+                <Label2 name="Side" value={el.side.toUpperCase()} />
+                <Label2 name="Position" value={el.position_size}/>
+                <Label2 name="Leverage" value={`${el.leverage}x`}/>
+                <Label2 name="Cost" value={`$${((el.close_price*el.position_size)/el.leverage).toFixed(2)}`}/>
+              </Flex>
+              <Line/>
+              <Flex>
+                <Label2 name="Open Price" value={el.open_price}/>
+                <Label2 name="Close Price" value={el.close_price}/>
+                <Label2 name="" value="" />
+                <Label2 name="" value="" />
+              </Flex>
+            </Container>    
+          }
+        </Pagination>
+      }
 
     </>
   )
