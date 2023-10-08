@@ -20,7 +20,7 @@ const Velocity = ({klines}:{klines: KLines}) => {
   // Measures the velocity of price movements.
   const calc_velocity = () => {
     const velocity = [{time: 0, velocity: 0}];
-    for(const [time, open, high, low, close, volume] of klines){
+    for(const [time, open, high, low] of klines){
       velocity.push({
         time: time,
         velocity: ((high - low) / open) * 100
@@ -34,7 +34,7 @@ const Velocity = ({klines}:{klines: KLines}) => {
   return (
     <ResponsiveContainer width="100%" height={180}>
       <AreaChart data={data} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
-        <XAxis dataKey="time" tickFormatter={(time) => UK(time)} minTickGap={50} fontSize={12}/>
+        <XAxis dataKey="time" tickFormatter={(time) => UK(time)} minTickGap={50} fontSize={12} padding={{right: 20}} />
         <YAxis dataKey="velocity" domain={["auto", "auto"]} fontSize={12}/>
         <Area dataKey="velocity" opacity={0.5} stroke="#6042d7" fill="#6042d7"/>
         <Tooltip content={<CustomToolTips payload={data}/>}/>

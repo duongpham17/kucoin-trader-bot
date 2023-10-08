@@ -85,10 +85,10 @@ const Rsi = ({klines}: {klines: KLines}) => {
 
   return (
     <div>
-      <Label value="" name={`RSI ${latest} ${label}`} size="1.5rem" style={{padding: "0.5rem 0"}}/>
+      <Label value="" name={`RSI ${latest} ${label}`} size="1.2rem" style={{padding: "0.5rem 0"}}/>
       <ResponsiveContainer width="100%" height={180}>
         <AreaChart data={rsi} margin={{ top: 18, right: 0, left: -16, bottom: 0 }}>
-          <XAxis dataKey="time" tickFormatter={(time) => UK(time)} minTickGap={50} fontSize={12}/>
+          <XAxis dataKey="time" tickFormatter={(time) => UK(time)} minTickGap={50} fontSize={12} padding={{right: 20}} />
           <YAxis dataKey="rsi" tickFormatter={(el) => el.toFixed(0)} domain={[0, 100]} fontSize={12}/>
           <Area dataKey="rsi" opacity={0.5} stroke="#6042d7" fill="#6042d7" />
           <Tooltip content={<CustomToolTips payload={rsi}/>}/>

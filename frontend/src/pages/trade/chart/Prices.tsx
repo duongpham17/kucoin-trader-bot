@@ -74,7 +74,7 @@ const Prices = ({klines}:{klines: KLines}) => {
 
   return (
     <Container style={{padding: "1rem 0"}}>
-      <ReactApexChart options={options} series={series} type="candlestick" height={400} />
+      <ReactApexChart options={options} series={series} type="candlestick" height={400}/>
       <style>
         {`
           .apexcharts-yaxistooltip, .apexcharts-xaxistooltip, .apexcharts-tooltip {

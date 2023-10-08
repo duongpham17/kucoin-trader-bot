@@ -24,7 +24,7 @@ async function bot() {
       try {
 
         // Fetch active trades from the database
-        const trades = await Trades.find({ running: true });
+        const trades = await Trades.find({ running: true }).sort({createdAt: 1});
 
         // Terminal
         let [live, test] = [0, 0]

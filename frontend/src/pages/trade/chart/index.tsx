@@ -13,7 +13,6 @@ import Strength from './Strength';
 import Rsi from './Rsi';
 import Volume from './Volume';
 import Velocity from './velocity';
-import Trend from './Trend';
 
 const Chart = () => {
 
@@ -34,6 +33,17 @@ const Chart = () => {
     useEffect(() => {
       document.title = `${query.getQueryValue("symbol")} ${latest_price}`;
     }, [latest_price, query]);
+
+    const onChartSelection = (item: string | number) => {
+      const str = item.toString();
+      if(openLocal.includes(str)){
+        const filter = openLocal.split(" ").filter((el: any) => el !== str).join(" ");
+        onOpenLocal(filter);
+      } else {
+        const new_items = `${openLocal} ${str}`;
+        onOpenLocal(new_items, false);
+      };
+    };
     
     return ( !klines ? <Loading size={50} center/> : 
       <>
@@ -44,19 +54,17 @@ const Chart = () => {
 
         <Select 
           color="plain" 
-          items={["rsi", "strength", "volume", "velocity", "trend"]} 
-          onClick={(e) => onOpenLocal(e.toString(), false)} selected={openLocal} 
+          items={["rsi", "strength", "volume", "velocity"]} 
+          onClick={onChartSelection} selected={openLocal} 
         />
 
-        {openLocal === "rsi" && <Rsi klines={klines} />}
+        {openLocal.includes("rsi") && <Rsi klines={klines} />}
 
-        {openLocal === "strength" && <Strength klines={klines}/>}
+        {openLocal.includes("strength") && <Strength klines={klines}/>}
 
-        {openLocal === "volume" && <Volume klines={klines} />}
+        {openLocal.includes("volume") && <Volume klines={klines} />}
 
-        {openLocal === "velocity" && <Velocity klines={klines} />}
-
-        {openLocal === "trend" && <Trend klines={klines} /> }
+        {openLocal.includes("velocity") && <Velocity klines={klines} />}
 
       </>  
     )

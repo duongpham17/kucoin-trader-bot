@@ -2,7 +2,6 @@ import Create from './create';
 import Chart from './chart';
 import Summary from './summary';
 import Orders from './orders';
-import Analytics from './analytics';
 
 const Trade = () => {
   return (
@@ -10,7 +9,6 @@ const Trade = () => {
       <Create />
       <Summary/>
       <Chart />
-      <Analytics />
       <Orders />
     </>
   )
